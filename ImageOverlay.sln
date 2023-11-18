@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageOverlay", "ImageOverlay.csproj", "{A8CBA510-496D-4E41-B949-51AC2D45EDE5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Steam|Any CPU = Steam|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A8CBA510-496D-4E41-B949-51AC2D45EDE5}.Steam|Any CPU.ActiveCfg = Steam|Any CPU
+		{A8CBA510-496D-4E41-B949-51AC2D45EDE5}.Steam|Any CPU.Build.0 = Steam|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7474850-6F2B-4E0E-9765-EBFCFD85EB37}
+	EndGlobalSection
+EndGlobal

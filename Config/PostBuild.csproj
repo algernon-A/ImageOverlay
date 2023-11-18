@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+		<Configurations>Steam</Configurations>
+		<UnityVersion>2022.3.7f1</UnityVersion>
+		<EntityVersion>1.0.14</EntityVersion>
+		<InstallationPath>$(MSBuildProgramFiles32)\Steam\steamapps\common\Cities Skylines II</InstallationPath>
+		<DataPath>$(LOCALAPPDATA)\..\LocalLow\Colossal Order\Cities Skylines II</DataPath>
+		<RepoPath>$(ProjectDir)..\..\..\..</RepoPath>
+		<UnityModProjectPath>$(DataPath)\.cache\Modding\UnityModsProject</UnityModProjectPath>
+		<ModPostProcessorPath>$(InstallationPath)\Cities2_Data\StreamingAssets\~Tooling~\ModPostProcessor\ModPostProcessor.exe</ModPostProcessorPath>
+		<EntityPackagePath>$(UnityModProjectPath)\Library\PackageCache\com.unity.entities@$(EntityVersion)\Unity.Entities\SourceGenerators</EntityPackagePath>
+		<ManagedDLLPath>$(InstallationPath)\Cities2_Data\Managed</ManagedDLLPath>
+		<UnityEnginePath>C:\Program Files\Unity\Hub\Editor\$(UnityVersion)\Editor\Data\Managed\UnityEngine</UnityEnginePath>
+		<AssemblySearchPaths>
+			$(AssemblySearchPaths);
+			$(ManagedDLLPath);
+		</AssemblySearchPaths>
+	</PropertyGroup>
+	<ItemGroup>
+		<Analyzer Include="$(EntityPackagePath)\Unity.Entities.SourceGen.SystemGenerator.SystemAPI.dll" />
+		<Analyzer Include="$(EntityPackagePath)\Unity.Entities.SourceGen.SystemGenerator.dll" />
+		<Analyzer Include="$(EntityPackagePath)\Unity.Entities.SourceGen.SystemGenerator.SystemAPI.QueryBuilder.dll" />
+		<Analyzer Include="$(EntityPackagePath)\Unity.Entities.Analyzer.dll" />
+		<Analyzer Include="$(EntityPackagePath)\Unity.Entities.SourceGen.SystemGenerator.LambdaJobs.dll" />
+		<Analyzer Include="$(EntityPackagePath)\Unity.Entities.SourceGen.SystemGenerator.Common.dll" />
+		<Analyzer Include="$(EntityPackagePath)\Unity.Entities.SourceGen.SystemGenerator.SystemAPI.Query.dll" />
+		<Analyzer Include="$(EntityPackagePath)\Unity.Entities.Analyzer.CodeFixes.dll" />
+		<Analyzer Include="$(EntityPackagePath)\Unity.Entities.SourceGen.AspectGenerator.dll" />
+		<Analyzer Include="$(EntityPackagePath)\Unity.Entities.SourceGen.Common.dll" />
+		<Analyzer Include="$(EntityPackagePath)\Unity.Entities.SourceGen.SystemGenerator.EntityQueryBulkOperations.dll" />
+		<Analyzer Include="$(EntityPackagePath)\Unity.Entities.SourceGen.JobEntityGenerator.dll" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Remove="Logs\**" />
+		<None Remove="$(ProjectDir)\Library\**" />
+	</ItemGroup>
+</Project>

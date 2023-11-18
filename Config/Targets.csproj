@@ -1,0 +1,53 @@
+<Project>
+	
+	<Target Name="ChechManagedDLLPath" BeforeTargets="PreBuildEvent">
+		<Message Text="$(CommonLocation)\General.targets" Importance="high"/>
+		<Error Condition="!Exists('$(ManagedDLLPath)')" Text="The Managed DLL path is wrong: $(ManagedDLLPath)" />
+		<OnError ExecuteTargets="CheckInstallationPath" />
+	</Target>
+	
+	<Target Name="CheckInstallationPath" AfterTargets="ChechManagedDLLPath">
+		<Error Condition="'$(Configuration)'=='Steam' AND !Exists('$(InstallationPath)\Cities2.exe')" Text="The Game Installation path is wrong: $(InstallationPath)" />
+		<OnError ExecuteTargets="CheckDataPath" />
+	</Target>
+
+	<Target Name="CheckDataPath" AfterTargets="CheckInstallationPath">
+		<Error Condition="!Exists('$(DataPath)')" Text="The Game Data path is wrong: $(DataPath)" />
+		<OnError ExecuteTargets="CheckUnityModProjectPath" />
+	</Target>
+
+	<Target Name="CheckUnityModProjectPath" AfterTargets="CheckDataPath">
+		<Error Condition="!Exists('$(UnityModProjectPath)')" Text="The Unity Mod Project path is wrong: $(UnityModProjectPath)" />
+		<OnError ExecuteTargets="CheckModPostProcessorPath" />
+	</Target>
+
+	<Target Name="CheckModPostProcessorPath" AfterTargets="CheckUnityModProjectPath">
+		<Error Condition="!Exists('$(ModPostProcessorPath)')" Text="The Mod Post Processor path is wrong: $(ModPostProcessorPath)" />
+		<OnError ExecuteTargets="CheckEntityPackagePath" />
+	</Target>
+
+	<Target Name="CheckEntityPackagePath" AfterTargets="CheckModPostProcessorPath">
+		<Error Condition="!Exists('$(EntityPackagePath)')" Text="The Entity package path is wrong: $(EntityPackagePath)" />
+	</Target>
+	
+	<Target Name="BeforeBuildAction" BeforeTargets="BeforeBuild">
+		<RemoveDir Directories="$(OutDir)" />
+	</Target>
+	
+	<Target Name="AfterBuildAction" AfterTargets="AfterBuild">
+		<PropertyGroup>
+			<ModPostProcessorArgs>"$(ModPostProcessorPath)" PostProcess "$(TargetPath)" -r "@(ReferencePath)" -u "$(UnityModProjectPath)" -t Windows -t macOS -t Linux -b $(Configuration) -d -v</ModPostProcessorArgs>
+		</PropertyGroup>
+		<Message Condition="Exists('$(ModPostProcessorPath)')" Text="Run post processor: $(ModPostProcessorArgs)" Importance="high" />
+		<Message Condition="!Exists('$(ModPostProcessorPath)')" Text="Post processor was not found, please check the path: @(ModPostProcessorPath)" Importance="high" />
+		<Exec Condition="Exists('$(ModPostProcessorPath)')" Command="$(ModPostProcessorArgs)"></Exec>
+		<ItemGroup>
+			<FilesToCopy Include="$(OutDir)\**\*.*" />
+			<DeployDir Include="$(DataPath)\Mods\WorkInProgress\$(ProjectName)" />
+		</ItemGroup>
+		<Message Text="Copy output to deploy dir @(DeployDir)" Importance="high" />
+		<RemoveDir Directories="@(DeployDir)" />
+		<Copy SourceFiles="@(FilesToCopy)" DestinationFolder="@(DeployDir)" />
+	</Target>
+	
+</Project>
