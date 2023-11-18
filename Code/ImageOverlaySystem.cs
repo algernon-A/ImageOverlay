@@ -81,6 +81,16 @@ namespace ImageOverlay
             westKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/leftarrow");
             westKey.performed += (c) => ChangePosition(-8f, 0f);
             westKey.Enable();
+
+            InputAction rotateRightKey = new ("ImageOverlayRotateRight");
+            rotateRightKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/period");
+            rotateRightKey.performed += (c) => Rotate(90f);
+            rotateRightKey.Enable();
+
+            InputAction rotateLeftKey = new ("ImageOverlayRotateLeft");
+            rotateLeftKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/comma");
+            rotateLeftKey.performed += (c) => Rotate(-90f);
+            rotateLeftKey.Enable();
         }
 
         /// <summary>
@@ -149,6 +159,19 @@ namespace ImageOverlay
             if (_overlayObject)
             {
                 _overlayObject.transform.position += new Vector3(xAdjustment, 0f, zAdjustment);
+            }
+        }
+
+        /// <summary>
+        /// Rotates the overlay around the centre (y-axis) by the given amount in degrees.
+        /// </summary>
+        /// <param name="rotation">Rotation in degrees.</param>
+        private void Rotate(float rotation)
+        {
+            // Null check.
+            if (_overlayObject)
+            {
+                _overlayObject.transform.Rotate(new Vector3(0f, rotation, 0f), Space.Self);
             }
         }
 
