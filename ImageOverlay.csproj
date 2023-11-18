@@ -37,9 +37,6 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="overlay.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
 	  <None Update="Shader\shaderbundle">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

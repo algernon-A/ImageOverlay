@@ -25,8 +25,11 @@ namespace ImageOverlay
         private GameObject _overlayObject;
         private Material _overlayMaterial;
         private Texture2D _overlayTexture;
-        private bool _isVisible = false;
         private Shader _overlayShader;
+        private bool _isVisible = false;
+
+        // Loaded filename.
+        private string _loadedFile;
 
         /// <summary>
         /// Called when the system is created.
@@ -120,19 +123,26 @@ namespace ImageOverlay
             if (_isVisible)
             {
                 _isVisible = false;
-                _overlayObject?.SetActive(false);
+                if (_overlayObject)
+                {
+                    _overlayObject.SetActive(false);
+                }
+
                 return;
             }
 
-            // Showing overlay - create overlay if it's not already there.
-            if (!_overlayObject || !_overlayMaterial || !_overlayTexture)
+            // Showing overlay - create overlay if it's not already there, or if the file we used has been deleted.
+            if ((!_overlayObject || !_overlayMaterial || !_overlayTexture) || (!string.IsNullOrEmpty(_loadedFile) && !File.Exists(_loadedFile)))
             {
                 CreateOverlay();
             }
 
-            // Show overlay.
-            _overlayObject.SetActive(true);
-            _isVisible = true;
+            // Show overlay if one was succesfully loaded.
+            if (_overlayObject)
+            {
+                _overlayObject.SetActive(true);
+                _isVisible = true;
+            }
         }
 
         /// <summary>
@@ -185,42 +195,48 @@ namespace ImageOverlay
             // Dispose of any existing objects.
             DestroyObjects();
 
-            // Create basic plane.
-            _overlayObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
-
-            // Plane primitive is 10x10 in size; scale up to cover entire map.
-            _overlayObject.transform.localScale = new Vector3(1433.6f, 1f, 1433.6f);
-
-            // Set overlay position to centre of map, 5m above surface level.
-            TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
-            WaterSurfaceData waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
-            _overlayObject.transform.position = new Vector3(0f, WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero) + 5f, 0f);
-
             // Load image texture.
             try
             {
-                _log.Info("loading image");
+                _log.Debug("looking for overlay image files");
 
                 // Ensure file exists.
-                string overlayPath = Path.Combine(Mod.Instance.AssemblyPath, "overlay.png");
-                if (!File.Exists(overlayPath))
+                string[] pngFiles = Directory.GetFiles(Mod.Instance.AssemblyPath, "*.png", SearchOption.TopDirectoryOnly);
+                if (pngFiles.Length < 1)
                 {
+                    _log.Info("no .png image files found");
                     return;
                 }
 
-                _log.Info("found image file");
+                _log.Info("loading image file " + Path.GetFileName(pngFiles[0]));
 
                 // Load and apply texture.
                 _overlayTexture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-                _overlayTexture.LoadImage(File.ReadAllBytes(overlayPath));
+                _overlayTexture.LoadImage(File.ReadAllBytes(pngFiles[0]));
                 _overlayTexture.Apply();
 
-                // Attach texture to material.
+                // Create material.
                 _overlayMaterial = new Material(_overlayShader)
                 {
                     mainTexture = _overlayTexture,
                 };
+
+                // Create basic plane.
+                _overlayObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
+
+                // Plane primitive is 10x10 in size; scale up to cover entire map.
+                _overlayObject.transform.localScale = new Vector3(1433.6f, 1f, 1433.6f);
+
+                // Set overlay position to centre of map, 5m above surface level.
+                TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
+                WaterSurfaceData waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
+                _overlayObject.transform.position = new Vector3(0f, WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero) + 5f, 0f);
+
+                // Attach material to GameObject.
                 _overlayObject.GetComponent<Renderer>().material = _overlayMaterial;
+
+                // Record loaded filename.
+                _loadedFile = pngFiles[0];
             }
             catch (Exception e)
             {
