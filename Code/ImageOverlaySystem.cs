@@ -61,6 +61,26 @@ namespace ImageOverlay
             downKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/pagedown");
             downKey.performed += (c) => ChangeHeight(-5f);
             downKey.Enable();
+
+            InputAction northKey = new ("ImageOverlayNorth");
+            northKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/uparrow");
+            northKey.performed += (c) => ChangePosition(0f, 8f);
+            northKey.Enable();
+
+            InputAction southKey = new ("ImageOverlaySouth");
+            southKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/downarrow");
+            southKey.performed += (c) => ChangePosition(0f, -8f);
+            southKey.Enable();
+
+            InputAction eastKey = new ("ImageOverlayEast");
+            eastKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/rightarrow");
+            eastKey.performed += (c) => ChangePosition(8f, 0f);
+            eastKey.Enable();
+
+            InputAction westKey = new ("ImageOverlayWest");
+            westKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/leftarrow");
+            westKey.performed += (c) => ChangePosition(-8f, 0f);
+            westKey.Enable();
         }
 
         /// <summary>
@@ -115,6 +135,20 @@ namespace ImageOverlay
             if (_overlayObject)
             {
                 _overlayObject.transform.position += new Vector3(0f, adjustment, 0f);
+            }
+        }
+
+        /// <summary>
+        /// Changes the overlay position by the given adjustment.
+        /// </summary>
+        /// <param name="xAdjustment">X-position adjustment.</param>
+        /// <param name="zAdjustment">Z-position adjustment.</param>
+        private void ChangePosition(float xAdjustment, float zAdjustment)
+        {
+            // Null check.
+            if (_overlayObject)
+            {
+                _overlayObject.transform.position += new Vector3(xAdjustment, 0f, zAdjustment);
             }
         }
 
