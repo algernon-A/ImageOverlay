@@ -4,20 +4,21 @@
 		<AssemblyTitle>$(Title)</AssemblyTitle>
 		<Description>A Cities: Skylines 2 mod.</Description>
 		<Authors>algernon</Authors>
-		<Copyright>Copyright © 2023 algernon</Copyright>
+		<Copyright>Copyright © 2023 algernon (github.com/algernon-A). All rights reserved.</Copyright>
 		<Product>$(Title)</Product>
 		<Version>0.1</Version>
 		<LangVersion>9.0</LangVersion>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<TargetFramework>net472</TargetFramework>
+		<Configurations>Debug;Release</Configurations>
+		<PDXAccountDataPath>$(USERPROFILE)\Documents\pdx_account.txt</PDXAccountDataPath>
+		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
 	</PropertyGroup>
 
-	<Import Project="Config/Postbuild.csproj" />
-	<Import Project="Config/Targets.csproj" />
 	<Import Project="Config/References.csproj" />
-	<ItemGroup>
-	  <None Remove="Unlit.shader" />
-	</ItemGroup>
-
+	<Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.props" />
+	<Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.targets" />
+	
 	<ItemGroup>
 		<AdditionalFiles Include="stylecop.json" />
 	</ItemGroup>
@@ -26,9 +27,7 @@
 	  <EmbeddedResource Include="Shader\UnlitTransparentAdditive.shader" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Include="Config/PostBuild.csproj" />
 	  <None Include="Config/References.csproj" />
-	  <None Include="Config/Targets.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">

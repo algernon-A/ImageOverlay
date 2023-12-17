@@ -137,7 +137,7 @@ namespace ImageOverlay
                 CreateOverlay();
             }
 
-            // Show overlay if one was succesfully loaded.
+            // Show overlay if one was successfully loaded.
             if (_overlayObject)
             {
                 _overlayObject.SetActive(true);
@@ -227,6 +227,9 @@ namespace ImageOverlay
                 // Plane primitive is 10x10 in size; scale up to cover entire map.
                 _overlayObject.transform.localScale = new Vector3(1433.6f, 1f, 1433.6f);
 
+                // Initial rotation to align to map.
+                Rotate(180f);
+
                 // Set overlay position to centre of map, 5m above surface level.
                 TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
                 WaterSurfaceData waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
@@ -247,7 +250,7 @@ namespace ImageOverlay
         /// <summary>
         /// Loads the custom shader from file.
         /// </summary>
-        /// <returns><c>true</c> if the shader was succesfully loaded, <c>false</c> otherwise.</returns>
+        /// <returns><c>true</c> if the shader was successfully loaded, <c>false</c> otherwise.</returns>
         private bool LoadShader()
         {
             try
