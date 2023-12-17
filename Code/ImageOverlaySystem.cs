@@ -8,6 +8,7 @@ namespace ImageOverlay
 {
     using System;
     using System.IO;
+    using System.Reflection;
     using Colossal.Logging;
     using Game;
     using Game.Simulation;
@@ -300,24 +301,19 @@ namespace ImageOverlay
             try
             {
                 _log.Info("loading overlay shader");
-
-                // Check that asset bundle exists.
-                string assetBundlePath = Path.Combine(Mod.Instance.AssemblyPath, "shaderbundle");
-                if (!File.Exists(assetBundlePath))
+                using StreamReader reader = new (Assembly.GetExecutingAssembly().GetManifestResourceStream("ImageOverlay.Shader.shaderbundle"));
                 {
-                    _log.Critical("Image Overlay: unable to find overlay shader asset bundle; aborting operation.");
-                }
-
-                // Extract shader from file.
-                _overlayShader = AssetBundle.LoadFromFile(assetBundlePath)?.LoadAsset<Shader>("UnlitTransparentAdditive.shader");
-                if (_overlayShader is not null)
-                {
-                    // Shader loaded - all good!
-                    return true;
-                }
-                else
-                {
-                    _log.Critical("Image Overlay: unable to load overlay shader from asset bundle; aborting operation.");
+                    // Extract shader from file.
+                    _overlayShader = AssetBundle.LoadFromStream(reader.BaseStream)?.LoadAsset<Shader>("UnlitTransparentAdditive.shader");
+                    if (_overlayShader is not null)
+                    {
+                        // Shader loaded - all good!
+                        return true;
+                    }
+                    else
+                    {
+                        _log.Critical("Image Overlay: unable to load overlay shader from asset bundle; aborting operation.");
+                    }
                 }
             }
             catch (Exception e)

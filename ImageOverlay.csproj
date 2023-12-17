@@ -6,7 +6,7 @@
 		<Authors>algernon</Authors>
 		<Copyright>Copyright © 2023 algernon (github.com/algernon-A). All rights reserved.</Copyright>
 		<Product>$(Title)</Product>
-		<Version>0.2</Version>
+		<Version>0.2.0.1</Version>
 		<LangVersion>9.0</LangVersion>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<TargetFramework>net472</TargetFramework>
@@ -18,16 +18,12 @@
 	<Import Project="Config/References.csproj" />
 	<Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.props" />
 	<Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.targets" />
-	<ItemGroup>
-	  <None Remove="l10n.csv" />
-	</ItemGroup>
 	
 	<ItemGroup>
 		<AdditionalFiles Include="stylecop.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="l10n.csv" />
 	  <EmbeddedResource Include="Shader\UnlitTransparentAdditive.shader" />
 	</ItemGroup>
 	<ItemGroup>
@@ -41,6 +37,9 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
+	  <None Update="l10n.csv">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Shader\shaderbundle">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
