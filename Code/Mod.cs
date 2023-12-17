@@ -65,6 +65,11 @@ namespace ImageOverlay
         internal ILog Log { get; private set; }
 
         /// <summary>
+        /// Gets the mod's active settings configuration.
+        /// </summary>
+        internal ModSettings ActiveSettings { get; private set; }
+
+        /// <summary>
         /// Called by the game when the mod is loaded.
         /// </summary>
         public void OnLoad()
@@ -79,6 +84,13 @@ namespace ImageOverlay
             Log.effectivenessLevel = Level.Debug;
 #endif
             Log.Info("loading");
+
+            // Register mod settings to game options UI.
+            ActiveSettings = new (this);
+            ActiveSettings.RegisterInOptionsUI();
+
+            // Load translations.
+            Localization.LoadTranslations(ActiveSettings, Log);
         }
 
         /// <summary>
@@ -89,6 +101,8 @@ namespace ImageOverlay
         {
             Log.Info("starting OnCreateWorld");
             updateSystem.UpdateAt<ImageOverlaySystem>(SystemUpdatePhase.ToolUpdate);
+            ActiveSettings = new (this);
+            ActiveSettings.RegisterInOptionsUI();
         }
 
         /// <summary>

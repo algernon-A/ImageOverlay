@@ -1,0 +1,6 @@
+scope	key	en-US
+Options.SECTION	[algernon.ImageOverlay]	Image Overlay
+Options.OPTION	SelectedOverlay	Overlay file to use
+Options.OPTION_DESCRIPTION	SelectedOverlay	Select an overlay file to use.
+Options.OPTION	RefreshFileList	Refresh file list
+Options.OPTION_DESCRIPTION	RefreshFileList	Refreshes the list of available overlay files from the 'Overlays' directory in the Cities: Skylines II user settings directory.

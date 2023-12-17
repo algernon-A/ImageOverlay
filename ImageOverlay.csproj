@@ -18,12 +18,16 @@
 	<Import Project="Config/References.csproj" />
 	<Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.props" />
 	<Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.targets" />
+	<ItemGroup>
+	  <None Remove="l10n.csv" />
+	</ItemGroup>
 	
 	<ItemGroup>
 		<AdditionalFiles Include="stylecop.json" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Include="l10n.csv" />
 	  <EmbeddedResource Include="Shader\UnlitTransparentAdditive.shader" />
 	</ItemGroup>
 	<ItemGroup>

@@ -30,8 +30,22 @@ namespace ImageOverlay
         private Shader _overlayShader;
         private bool _isVisible = false;
 
-        // Loaded filename.
-        private string _loadedFile;
+        /// <summary>
+        /// Gets the active instance.
+        /// </summary>
+        internal static ImageOverlaySystem Instance { get; private set; }
+
+        /// <summary>
+        /// Triggers a refresh of the current overlay (if any).
+        /// </summary>
+        internal void UpdateOverlay()
+        {
+            // Only refresh if there's an existing overlay object.
+            if (_overlayObject)
+            {
+                UpdateOverlayTexture();
+            }
+        }
 
         /// <summary>
         /// Called when the system is created.
@@ -39,6 +53,9 @@ namespace ImageOverlay
         protected override void OnCreate()
         {
             base.OnCreate();
+
+            // Set instance.
+            Instance = this;
 
             // Set log.
             _log = Mod.Instance.Log;
@@ -69,23 +86,43 @@ namespace ImageOverlay
 
             InputAction northKey = new ("ImageOverlayNorth");
             northKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/uparrow");
-            northKey.performed += (c) => ChangePosition(0f, 8f);
+            northKey.performed += (c) => ChangePosition(0f, 1f);
             northKey.Enable();
 
             InputAction southKey = new ("ImageOverlaySouth");
             southKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/downarrow");
-            southKey.performed += (c) => ChangePosition(0f, -8f);
+            southKey.performed += (c) => ChangePosition(0f, -1f);
             southKey.Enable();
 
             InputAction eastKey = new ("ImageOverlayEast");
             eastKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/rightarrow");
-            eastKey.performed += (c) => ChangePosition(8f, 0f);
+            eastKey.performed += (c) => ChangePosition(1f, 0f);
             eastKey.Enable();
 
             InputAction westKey = new ("ImageOverlayWest");
             westKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/leftarrow");
-            westKey.performed += (c) => ChangePosition(-8f, 0f);
+            westKey.performed += (c) => ChangePosition(-1f, 0f);
             westKey.Enable();
+
+            InputAction northKeyLarge = new ("ImageOverlayNorthLarge");
+            northKeyLarge.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/shift").With("Button", "<Keyboard>/uparrow");
+            northKeyLarge.performed += (c) => ChangePosition(0f, 10f);
+            northKeyLarge.Enable();
+
+            InputAction southKeyLarge = new ("ImageOverlaySouthLarge");
+            southKeyLarge.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/shift").With("Button", "<Keyboard>/downarrow");
+            southKeyLarge.performed += (c) => ChangePosition(0f, -10f);
+            southKeyLarge.Enable();
+
+            InputAction eastKeyLarge = new ("ImageOverlayEastLarge");
+            eastKeyLarge.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/shift").With("Button", "<Keyboard>/rightarrow");
+            eastKeyLarge.performed += (c) => ChangePosition(10f, 0f);
+            eastKeyLarge.Enable();
+
+            InputAction westKeyLarge = new ("ImageOverlayWestLarge");
+            westKeyLarge.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/shift").With("Button", "<Keyboard>/leftarrow");
+            westKeyLarge.performed += (c) => ChangePosition(-10f, 0f);
+            westKeyLarge.Enable();
 
             InputAction rotateRightKey = new ("ImageOverlayRotateRight");
             rotateRightKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/period");
@@ -134,7 +171,7 @@ namespace ImageOverlay
             }
 
             // Showing overlay - create overlay if it's not already there, or if the file we used has been deleted.
-            if ((!_overlayObject || !_overlayMaterial || !_overlayTexture) || (!string.IsNullOrEmpty(_loadedFile) && !File.Exists(_loadedFile)))
+            if (!_overlayObject || !_overlayMaterial || !_overlayTexture)
             {
                 CreateOverlay();
             }
@@ -188,6 +225,34 @@ namespace ImageOverlay
         }
 
         /// <summary>
+        /// Updates the overlay texture.
+        /// </summary>
+        private void UpdateOverlayTexture()
+        {
+            // Ensure file exists.
+            if (!File.Exists(Mod.Instance.ActiveSettings.SelectedOverlay))
+            {
+                _log.Info("invalid overlay file " + Mod.Instance.ActiveSettings.SelectedOverlay);
+                return;
+            }
+
+            _log.Info("loading image file " + Mod.Instance.ActiveSettings.SelectedOverlay);
+
+            // Ensure texture instance.
+            _overlayTexture ??= new Texture2D(1, 1, TextureFormat.ARGB32, false);
+
+            // Load and apply texture.
+            _overlayTexture.LoadImage(File.ReadAllBytes(Mod.Instance.ActiveSettings.SelectedOverlay));
+            _overlayTexture.Apply();
+
+            // Create material.
+            _overlayMaterial ??= new Material(_overlayShader)
+                {
+                    mainTexture = _overlayTexture,
+                };
+        }
+
+        /// <summary>
         /// Creates the overlay object.
         /// </summary>
         private void CreateOverlay()
@@ -200,30 +265,10 @@ namespace ImageOverlay
             // Load image texture.
             try
             {
-                _log.Debug("looking for overlay image files");
+                // Load texture.
+                UpdateOverlayTexture();
 
-                // Ensure file exists.
-                string[] pngFiles = Directory.GetFiles(Mod.Instance.AssemblyPath, "*.png", SearchOption.TopDirectoryOnly);
-                if (pngFiles.Length < 1)
-                {
-                    _log.Info("no .png image files found");
-                    return;
-                }
-
-                _log.Info("loading image file " + Path.GetFileName(pngFiles[0]));
-
-                // Load and apply texture.
-                _overlayTexture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-                _overlayTexture.LoadImage(File.ReadAllBytes(pngFiles[0]));
-                _overlayTexture.Apply();
-
-                // Create material.
-                _overlayMaterial = new Material(_overlayShader)
-                {
-                    mainTexture = _overlayTexture,
-                };
-
-                // Create basic plane.
+                 // Create basic plane.
                 _overlayObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
 
                 // Plane primitive is 10x10 in size; scale up to cover entire map.
@@ -239,9 +284,6 @@ namespace ImageOverlay
 
                 // Attach material to GameObject.
                 _overlayObject.GetComponent<Renderer>().material = _overlayMaterial;
-
-                // Record loaded filename.
-                _loadedFile = pngFiles[0];
             }
             catch (Exception e)
             {
