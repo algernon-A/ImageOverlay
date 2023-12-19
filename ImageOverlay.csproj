@@ -24,7 +24,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Shader\UnlitTransparentAdditive.shader" />
+	  <EmbeddedResource Include="l10n.csv" />
+	  <EmbeddedResource Include="Shader\shaderbundle" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Include="Config/References.csproj" />
@@ -35,13 +36,5 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-	</ItemGroup>
-	<ItemGroup>
-	  <None Update="l10n.csv">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Shader\shaderbundle">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
 	</ItemGroup>
 </Project>
