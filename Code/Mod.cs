@@ -83,7 +83,7 @@ namespace ImageOverlay
             Log.Info("setting logging level to Debug");
             Log.effectivenessLevel = Level.Debug;
 #endif
-            Log.Info("loading");
+            Log.Info($"loading {ModName} version {Assembly.GetExecutingAssembly().GetName().Version}");
 
             // Register mod settings to game options UI.
             ActiveSettings = new (this);
@@ -101,8 +101,6 @@ namespace ImageOverlay
         {
             Log.Info("starting OnCreateWorld");
             updateSystem.UpdateAt<ImageOverlaySystem>(SystemUpdatePhase.ToolUpdate);
-            ActiveSettings = new (this);
-            ActiveSettings.RegisterInOptionsUI();
         }
 
         /// <summary>

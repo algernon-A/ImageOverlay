@@ -233,11 +233,11 @@ namespace ImageOverlay
             // Ensure file exists.
             if (!File.Exists(Mod.Instance.ActiveSettings.SelectedOverlay))
             {
-                _log.Info("invalid overlay file " + Mod.Instance.ActiveSettings.SelectedOverlay);
+                _log.Info($"invalid overlay file {Mod.Instance.ActiveSettings.SelectedOverlay}");
                 return;
             }
 
-            _log.Info("loading image file " + Mod.Instance.ActiveSettings.SelectedOverlay);
+            _log.Info($"loading image file {Mod.Instance.ActiveSettings.SelectedOverlay}");
 
             // Ensure texture instance.
             _overlayTexture ??= new Texture2D(1, 1, TextureFormat.ARGB32, false);
