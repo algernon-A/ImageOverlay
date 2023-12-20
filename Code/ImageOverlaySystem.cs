@@ -231,19 +231,26 @@ namespace ImageOverlay
         private void UpdateOverlayTexture()
         {
             // Ensure file exists.
-            if (!File.Exists(Mod.Instance.ActiveSettings.SelectedOverlay))
+            string selectedOverlay = Mod.Instance.ActiveSettings.SelectedOverlay;
+            if (string.IsNullOrEmpty(selectedOverlay))
             {
-                _log.Info($"invalid overlay file {Mod.Instance.ActiveSettings.SelectedOverlay}");
+                _log.Info($"no overlay file set");
                 return;
             }
 
-            _log.Info($"loading image file {Mod.Instance.ActiveSettings.SelectedOverlay}");
+            if (!File.Exists(selectedOverlay))
+            {
+                _log.Info($"invalid overlay file {selectedOverlay}");
+                return;
+            }
+
+            _log.Info($"loading image file {selectedOverlay}");
 
             // Ensure texture instance.
             _overlayTexture ??= new Texture2D(1, 1, TextureFormat.ARGB32, false);
 
             // Load and apply texture.
-            _overlayTexture.LoadImage(File.ReadAllBytes(Mod.Instance.ActiveSettings.SelectedOverlay));
+            _overlayTexture.LoadImage(File.ReadAllBytes(selectedOverlay));
             _overlayTexture.Apply();
 
             // Create material.

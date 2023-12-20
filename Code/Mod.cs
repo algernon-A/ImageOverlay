@@ -91,6 +91,9 @@ namespace ImageOverlay
 
             // Load translations.
             Localization.LoadTranslations(ActiveSettings, Log);
+
+            // Load saved settings.
+            AssetDatabase.global.LoadSettings("ImageOverlaySettings", ActiveSettings, new ModSettings(this));
         }
 
         /// <summary>

@@ -134,6 +134,7 @@ namespace ImageOverlay
         /// </summary>
         public override void SetDefaults()
         {
+            _selectedOverlay = string.Empty;
         }
 
         /// <summary>
