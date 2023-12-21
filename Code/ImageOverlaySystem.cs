@@ -49,6 +49,21 @@ namespace ImageOverlay
         }
 
         /// <summary>
+        /// Sets the overlay size.
+        /// </summary>
+        /// <param name="size">Size per size, in metres.</param>
+        internal void SetSize(float size)
+        {
+            // Only refresh if there's an existing overlay object.
+            if (_overlayObject)
+            {
+                // Plane primitive is 10m wide, so divide input size accordingly.
+                float scaledSize = size / 10f;
+                _overlayObject.transform.localScale = new Vector3(scaledSize, 1f, scaledSize);
+            }
+        }
+
+        /// <summary>
         /// Called when the system is created.
         /// </summary>
         protected override void OnCreate()
@@ -134,6 +149,16 @@ namespace ImageOverlay
             rotateLeftKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/comma");
             rotateLeftKey.performed += (c) => Rotate(-90f);
             rotateLeftKey.Enable();
+
+            InputAction sizeUpKey = new ("ImageOverlaySizeUp");
+            sizeUpKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/equals");
+            sizeUpKey.performed += (c) => Mod.Instance.ActiveSettings.OverlaySize += 10f;
+            sizeUpKey.Enable();
+
+            InputAction sizeDownKey = new ("ImageOverlaySizeDown");
+            sizeDownKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/minus");
+            sizeDownKey.performed += (c) => Mod.Instance.ActiveSettings.OverlaySize -= 10f;
+            sizeDownKey.Enable();
         }
 
         /// <summary>
@@ -255,9 +280,9 @@ namespace ImageOverlay
 
             // Create material.
             _overlayMaterial ??= new Material(_overlayShader)
-                {
-                    mainTexture = _overlayTexture,
-                };
+            {
+                mainTexture = _overlayTexture,
+            };
         }
 
         /// <summary>
@@ -276,11 +301,11 @@ namespace ImageOverlay
                 // Load texture.
                 UpdateOverlayTexture();
 
-                 // Create basic plane.
+                // Create basic plane.
                 _overlayObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
 
-                // Plane primitive is 10x10 in size; scale up to cover entire map.
-                _overlayObject.transform.localScale = new Vector3(1433.6f, 1f, 1433.6f);
+                // Apply scale.
+                SetSize(Mod.Instance.ActiveSettings.OverlaySize);
 
                 // Initial rotation to align to map.
                 Rotate(180f);
@@ -308,7 +333,7 @@ namespace ImageOverlay
             try
             {
                 _log.Info("loading overlay shader");
-                using StreamReader reader = new (Assembly.GetExecutingAssembly().GetManifestResourceStream("ImageOverlay.Shader.shaderbundle"));
+                using StreamReader reader = new (Assembly.GetExecutingAssembly().GetManifestResourceStream("ImageOverlayLite.Shader.shaderbundle"));
                 {
                     // Extract shader from file.
                     _overlayShader = AssetBundle.LoadFromStream(reader.BaseStream)?.LoadAsset<Shader>("UnlitTransparentAdditive.shader");

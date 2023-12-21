@@ -12,6 +12,7 @@ namespace ImageOverlay
     using Colossal.Logging;
     using Game.Modding;
     using Game.Settings;
+    using Game.UI;
     using Game.UI.Widgets;
     using UnityEngine;
 
@@ -22,7 +23,9 @@ namespace ImageOverlay
     public class ModSettings : ModSetting
     {
         private const string NoOverlayText = "None";
+        private const float VanillaMapSize = 14336f;
 
+        // References.
         private readonly ILog _log;
         private readonly string _directoryPath;
 
@@ -30,6 +33,9 @@ namespace ImageOverlay
         private string[] _fileList;
         private string _selectedOverlay = string.Empty;
         private int _fileListVersion = 0;
+
+        // Overlay attributes.
+        private float _overlaySize = VanillaMapSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ModSettings"/> class.
@@ -71,9 +77,11 @@ namespace ImageOverlay
 
             set
             {
-                _selectedOverlay = value;
-
-                ImageOverlaySystem.Instance?.UpdateOverlay();
+                if (_selectedOverlay != value)
+                {
+                    _selectedOverlay = value;
+                    ImageOverlaySystem.Instance?.UpdateOverlay();
+                }
             }
         }
 
@@ -88,6 +96,34 @@ namespace ImageOverlay
             {
                 UpdateFileList();
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the overlay size.
+        /// </summary>
+        [SettingsUISlider(min = VanillaMapSize / 4f, max = VanillaMapSize * 4f, step = 1f, scalarMultiplier = 1f)]
+        [SettingsUISection("OverlaySize")]
+        public float OverlaySize
+        {
+            get => _overlaySize;
+            set
+            {
+                if (_overlaySize != value)
+                {
+                    _overlaySize = value;
+                    ImageOverlaySystem.Instance?.SetSize(value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets a value indicating whether the overlay size should be reset to default.
+        /// </summary>
+        [SettingsUIButton]
+        [SettingsUISection("OverlaySize")]
+        public bool ResetToVanilla
+        {
+            set => OverlaySize = VanillaMapSize;
         }
 
         /// <summary>
@@ -135,6 +171,7 @@ namespace ImageOverlay
         public override void SetDefaults()
         {
             _selectedOverlay = string.Empty;
+            OverlaySize = VanillaMapSize;
         }
 
         /// <summary>
