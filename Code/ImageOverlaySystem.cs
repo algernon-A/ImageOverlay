@@ -7,9 +7,11 @@
 namespace ImageOverlay
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
     using Colossal.Logging;
+    using Colossal.Serialization.Entities;
     using Game;
     using Game.Simulation;
     using Unity.Mathematics;
@@ -85,80 +87,47 @@ namespace ImageOverlay
             }
 
             // Set up hotkeys.
-            InputAction toggleKey = new ("ImageOverlayToggle");
-            toggleKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/o");
-            toggleKey.performed += ToggleOverlay;
-            toggleKey.Enable();
+            InputBindingsManager.Ensure();
+            List<string> shiftKey = new () { "<Keyboard>/shift" };
+            List<string> controlKey = new () { "<Keyboard>/ctrl" };
 
-            InputAction upKey = new ("ImageOverlayUp");
-            upKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/pageup");
-            upKey.performed += (c) => ChangeHeight(5f);
-            upKey.Enable();
+            InputBindingsManager.Instance.AddAction("ImageOverlayToggle", "<Keyboard>/o", controlKey, ToggleOverlay);
+            InputBindingsManager.Instance.AddAction("ImageOverlayUp", "<Keyboard>/pageup", controlKey, () => ChangeHeight(5f));
+            InputBindingsManager.Instance.AddAction("ImageOverlayDown", "<Keyboard>/pagedown", controlKey, () => ChangeHeight(-5f));
 
-            InputAction downKey = new ("ImageOverlayDown");
-            downKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/pagedown");
-            downKey.performed += (c) => ChangeHeight(-5f);
-            downKey.Enable();
+            InputBindingsManager.Instance.AddAction("ImageOverlayNorth", "<Keyboard>/uparrow", controlKey, () => ChangePosition(0f, 1f));
+            InputBindingsManager.Instance.AddAction("ImageOverlaySouth", "<Keyboard>/downarrow", controlKey, () => ChangePosition(0f, -1f));
+            InputBindingsManager.Instance.AddAction("ImageOverlayEast", "<Keyboard>/rightarrow", controlKey, () => ChangePosition(1f, 0f));
+            InputBindingsManager.Instance.AddAction("ImageOverlayWest", "<Keyboard>/leftarrow", controlKey, () => ChangePosition(-1f, 0f));
 
-            InputAction northKey = new ("ImageOverlayNorth");
-            northKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/uparrow");
-            northKey.performed += (c) => ChangePosition(0f, 1f);
-            northKey.Enable();
+            InputBindingsManager.Instance.AddAction("ImageOverlayNorthLarge", "<Keyboard>/uparrow", shiftKey, () => ChangePosition(0f, 10f));
+            InputBindingsManager.Instance.AddAction("ImageOverlaySouthLarge", "<Keyboard>/downarrow", shiftKey, () => ChangePosition(0f, -10f));
+            InputBindingsManager.Instance.AddAction("ImageOverlayEastLarge", "<Keyboard>/rightarrow", shiftKey, () => ChangePosition(10f, 0f));
+            InputBindingsManager.Instance.AddAction("ImageOverlayWestLarge", "<Keyboard>/leftarrow", shiftKey, () => ChangePosition(-10f, 0f));
 
-            InputAction southKey = new ("ImageOverlaySouth");
-            southKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/downarrow");
-            southKey.performed += (c) => ChangePosition(0f, -1f);
-            southKey.Enable();
+            InputBindingsManager.Instance.AddAction("ImageOverlayRotateRight", "<Keyboard>/period", controlKey, () => Rotate(90f));
+            InputBindingsManager.Instance.AddAction("ImageOverlayRotateLeft", "<Keyboard>/comma", controlKey, () => Rotate(-90f));
 
-            InputAction eastKey = new ("ImageOverlayEast");
-            eastKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/rightarrow");
-            eastKey.performed += (c) => ChangePosition(1f, 0f);
-            eastKey.Enable();
+            InputBindingsManager.Instance.AddAction("ImageOverlaySizeUp", "<Keyboard>/equals", controlKey, () => Mod.Instance.ActiveSettings.OverlaySize += 10f);
+            InputBindingsManager.Instance.AddAction("ImageOverlaySizeDown", "<Keyboard>/minus", controlKey, () => Mod.Instance.ActiveSettings.OverlaySize -= 10f);
+        }
 
-            InputAction westKey = new ("ImageOverlayWest");
-            westKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/leftarrow");
-            westKey.performed += (c) => ChangePosition(-1f, 0f);
-            westKey.Enable();
-
-            InputAction northKeyLarge = new ("ImageOverlayNorthLarge");
-            northKeyLarge.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/shift").With("Button", "<Keyboard>/uparrow");
-            northKeyLarge.performed += (c) => ChangePosition(0f, 10f);
-            northKeyLarge.Enable();
-
-            InputAction southKeyLarge = new ("ImageOverlaySouthLarge");
-            southKeyLarge.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/shift").With("Button", "<Keyboard>/downarrow");
-            southKeyLarge.performed += (c) => ChangePosition(0f, -10f);
-            southKeyLarge.Enable();
-
-            InputAction eastKeyLarge = new ("ImageOverlayEastLarge");
-            eastKeyLarge.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/shift").With("Button", "<Keyboard>/rightarrow");
-            eastKeyLarge.performed += (c) => ChangePosition(10f, 0f);
-            eastKeyLarge.Enable();
-
-            InputAction westKeyLarge = new ("ImageOverlayWestLarge");
-            westKeyLarge.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/shift").With("Button", "<Keyboard>/leftarrow");
-            westKeyLarge.performed += (c) => ChangePosition(-10f, 0f);
-            westKeyLarge.Enable();
-
-            InputAction rotateRightKey = new ("ImageOverlayRotateRight");
-            rotateRightKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/period");
-            rotateRightKey.performed += (c) => Rotate(90f);
-            rotateRightKey.Enable();
-
-            InputAction rotateLeftKey = new ("ImageOverlayRotateLeft");
-            rotateLeftKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/comma");
-            rotateLeftKey.performed += (c) => Rotate(-90f);
-            rotateLeftKey.Enable();
-
-            InputAction sizeUpKey = new ("ImageOverlaySizeUp");
-            sizeUpKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/equals");
-            sizeUpKey.performed += (c) => Mod.Instance.ActiveSettings.OverlaySize += 10f;
-            sizeUpKey.Enable();
-
-            InputAction sizeDownKey = new ("ImageOverlaySizeDown");
-            sizeDownKey.AddCompositeBinding("ButtonWithOneModifier").With("Modifier", "<Keyboard>/ctrl").With("Button", "<Keyboard>/minus");
-            sizeDownKey.performed += (c) => Mod.Instance.ActiveSettings.OverlaySize -= 10f;
-            sizeDownKey.Enable();
+        /// <summary>
+        /// Called when loading is complete.
+        /// </summary>
+        /// <param name="purpose">Loading purpose.</param>
+        /// <param name="mode">Current game mode.</param>
+        protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
+        {
+            base.OnGameLoadingComplete(purpose, mode);
+            if ((mode & GameMode.GameOrEditor) != GameMode.None)
+            {
+                InputBindingsManager.Instance.EnableActions();
+            }
+            else
+            {
+                InputBindingsManager.Instance.DisableActions();
+            }
         }
 
         /// <summary>
@@ -181,8 +150,7 @@ namespace ImageOverlay
         /// <summary>
         /// Toggles the overlay (called by hotkey action).
         /// </summary>
-        /// <param name="context">Callback context.</param>
-        private void ToggleOverlay(InputAction.CallbackContext context)
+        private void ToggleOverlay()
         {
             // Hide overlay if it's currently visible.
             if (_isVisible)
@@ -280,9 +248,9 @@ namespace ImageOverlay
 
             // Create material.
             _overlayMaterial ??= new Material(_overlayShader)
-            {
-                mainTexture = _overlayTexture,
-            };
+                {
+                    mainTexture = _overlayTexture,
+                };
         }
 
         /// <summary>
@@ -301,7 +269,7 @@ namespace ImageOverlay
                 // Load texture.
                 UpdateOverlayTexture();
 
-                // Create basic plane.
+                 // Create basic plane.
                 _overlayObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
 
                 // Apply scale.
