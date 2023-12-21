@@ -51,6 +51,20 @@ namespace ImageOverlay
         }
 
         /// <summary>
+        /// Sets the overlay's alpha value.
+        /// </summary>
+        /// <param name="alpha">Alpha value to set (0f - 1f).</param>
+        internal void SetAlpha(float alpha)
+        {
+            // Only update if there's an existing overlay object.
+            if (_overlayObject)
+            {
+                // Invert alpha.
+                _overlayObject.GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, 1f - alpha);
+            }
+        }
+
+        /// <summary>
         /// Sets the overlay size.
         /// </summary>
         /// <param name="size">Size per size, in metres.</param>
@@ -248,9 +262,9 @@ namespace ImageOverlay
 
             // Create material.
             _overlayMaterial ??= new Material(_overlayShader)
-                {
-                    mainTexture = _overlayTexture,
-                };
+            {
+                mainTexture = _overlayTexture,
+            };
         }
 
         /// <summary>
@@ -285,6 +299,7 @@ namespace ImageOverlay
 
                 // Attach material to GameObject.
                 _overlayObject.GetComponent<Renderer>().material = _overlayMaterial;
+                SetAlpha(Mod.Instance.ActiveSettings.Alpha);
             }
             catch (Exception e)
             {

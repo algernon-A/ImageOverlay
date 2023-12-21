@@ -1,4 +1,5 @@
 // Cribbed from various places and guides around the internet.
+// Therefore, the good bits are somebody else's, and the bad bits are mine.
 
 
 Shader "Unlit/Transparent Colored Additive"
@@ -6,6 +7,7 @@ Shader "Unlit/Transparent Colored Additive"
 	Properties
 	{
 		_MainTex ("Base (RGB), Alpha (A)", 2D) = "black" {}
+        _Color ("Color (RGBA)", Color) = (1, 1, 1, 1)
 	}
 	
 	SubShader
@@ -35,6 +37,7 @@ Shader "Unlit/Transparent Colored Additive"
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
+            float4 _Color;
 	
 			struct appdata_t
 			{
@@ -62,7 +65,7 @@ Shader "Unlit/Transparent Colored Additive"
 				
 			fixed4 frag (v2f IN) : COLOR
 			{
-				return tex2D(_MainTex, IN.texcoord) * IN.color;
+				return tex2D(_MainTex, IN.texcoord) * IN.color * _Color;
 			}
 			ENDCG
 		}

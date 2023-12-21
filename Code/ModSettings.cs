@@ -36,6 +36,7 @@ namespace ImageOverlay
 
         // Overlay attributes.
         private float _overlaySize = VanillaMapSize;
+        private float _alpha = 0f;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ModSettings"/> class.
@@ -127,6 +128,24 @@ namespace ImageOverlay
         }
 
         /// <summary>
+        /// Gets or sets the overlay alpha.
+        /// </summary>
+        [SettingsUISlider(min =0f, max = 95f, step = 5f, scalarMultiplier = 100f, unit = Unit.kPercentage)]
+        [SettingsUISection("Alpha")]
+        public float Alpha
+        {
+            get => _alpha;
+            set
+            {
+                if (_alpha != value)
+                {
+                    _alpha = value;
+                    ImageOverlaySystem.Instance?.SetAlpha(value);
+                }
+            }
+        }
+
+        /// <summary>
         /// Generates the overlay file selection dropdown menu item list.
         /// </summary>
         /// <returns>List of file selection dropdown menu items with trimmed filenames as the display value.</returns>
@@ -172,6 +191,7 @@ namespace ImageOverlay
         {
             _selectedOverlay = string.Empty;
             OverlaySize = VanillaMapSize;
+            Alpha = 0f;
         }
 
         /// <summary>

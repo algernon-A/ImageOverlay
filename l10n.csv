@@ -8,3 +8,5 @@ Options.OPTION	OverlaySize	Overlay size
 Options.OPTION_DESCRIPTION	OverlaySize	The size of the overlay image projection, in meters.  This can also be changed in-game using the minus and equals keys.
 Options.OPTION	ResetToVanilla	Reset overlay size
 Options.OPTION_DESCRIPTION	ResetToVanilla	Resets the overlay size to the default playable map size (14,336m).
+Options.OPTION	Alpha	Overlay transparency
+Options.OPTION_DESCRIPTION	Alpha	The transparency of the image; 0% is fully opaque and 100% is fully transparent (invisible).
