@@ -1,12 +1,18 @@
-scope	key	en-US
-Options.SECTION	[algernon.ImageOverlay]	Image Overlay
-Options.OPTION	SelectedOverlay	Overlay file to use
-Options.OPTION_DESCRIPTION	SelectedOverlay	Select an overlay file to use.
-Options.OPTION	RefreshFileList	Refresh file list
-Options.OPTION_DESCRIPTION	RefreshFileList	Refreshes the list of available overlay files from the 'Overlays' directory in the Cities: Skylines II user settings directory.
-Options.OPTION	OverlaySize	Overlay size
-Options.OPTION_DESCRIPTION	OverlaySize	The size of the overlay image projection, in meters.  This can also be changed in-game using the minus and equals keys.
-Options.OPTION	ResetToVanilla	Reset overlay size
-Options.OPTION_DESCRIPTION	ResetToVanilla	Resets the overlay size to the default playable map size (14,336m).
-Options.OPTION	Alpha	Overlay transparency
-Options.OPTION_DESCRIPTION	Alpha	The transparency of the image; 0% is fully opaque and 100% is fully transparent (invisible).
+scope	key	en-US	de-DE	es-ES	zh-HANS
+Options.SECTION	[algernon.ImageOverlay]	Image Overlay	Image Overlay	Image Ovelay	Image Overlay
+Options.OPTION	SelectedOverlay	Overlay file to use	Zu verwendende Overlay-Datei	Archivo a usar	要使用的覆盖文件
+Options.OPTION_DESCRIPTION	SelectedOverlay	Select an overlay file to use.	Select an overlay file to use.	Selecciona un archivo a usar.	选择要使用的覆盖文件。
+Options.OPTION	RefreshFileList	Refresh file list	Dateiliste aktualisieren	Actualizar lista	刷新文件列表
+Options.OPTION_DESCRIPTION	RefreshFileList	Refreshes the list of available overlay files from the 'Overlays' directory in the Cities: Skylines II user settings directory.	Aktualisiert die Liste der verfügbaren Overlay-Dateien aus dem 'Overlays' Verzeichnis in dem Benutzereinstellung-Ordner von Cities: Skylines II.	Actualiza la lista de imágenes disponible en el directorio 'Overlays' en la carpeta de Cities: Skylines II.	刷新都市：天际线2用户设置目录中“Overlays”文件夹下的可用覆盖文件列表。
+Options.OPTION	OverlaySize	Overlay size	Overlay size	Tamaño de la imagen	覆盖图像的尺寸
+Options.OPTION_DESCRIPTION	OverlaySize	The size of the overlay image projection, in meters.  This can also be changed in-game using the minus and equals keys.	The size of the overlay image projection, in meters.  This can also be changed in-game using the minus and equals keys.	El tamaño de la proyección de la imagen superpuesta, en metros. Esto también se puede cambiar en el juego usando las teclas menos e igual.	覆盖图像的大小（单位：米）。在游戏中可以使用“ - ”键和“ + ”键进行调整。
+Options.OPTION	ResetToVanilla	Reset overlay size	Reset overlay size	Restablecer tamaño de la imagen	重置覆盖图像的尺寸
+Options.OPTION_DESCRIPTION	ResetToVanilla	Resets the overlay size to the default playable map size (14,336m).	Resets the overlay size to the default playable map size (14,336m).	Restablece el tamaño de la imagen superpuesta al tamaño por defecto jugable del mapa (14,336m).	重置覆盖图像的尺寸为默认地图大小（边长14336米）。
+Options.OPTION	OverlayPosX	Overlay X-position	Overlay X-position	Overlay X-position	Overlay X-position
+Options.OPTION_DESCRIPTION	OverlayPosX	The X (east-west) coordinate of the center of the overlay image projection, in meters.  This can also be changed in-game using the left and right arrow keys while holding down control (for 1m increments) or shift (for 10m increments).	The X (east-west) coordinate of the center of the overlay image projection, in meters.  This can also be changed in-game using the left and right arrow keys while holding down control (for 1m increments) or shift (for 10m increments).	The X (east-west) coordinate of the center of the overlay image projection, in meters.  This can also be changed in-game using the left and right arrow keys while holding down control (for 1m increments) or shift (for 10m increments).	The X (east-west) coordinate of the center of the overlay image projection, in meters.  This can also be changed in-game using the left and right arrow keys while holding down control (for 1m increments) or shift (for 10m increments).
+Options.OPTION	OverlayPosZ	Overlay Z-position	Overlay Z-position	Overlay Z-position	Overlay Z-position
+Options.OPTION_DESCRIPTION	OverlayPosZ	The Z (north-south) coordinate of the center of the overlay image projection, in meters.  This can also be changed in-game using the up and down arrow keys while holding down control (for 1m increments) or shift (for 10m increments).	The Z (north-south) coordinate of the center of the overlay image projection, in meters.  This can also be changed in-game using the up and down arrow keys while holding down control (for 1m increments) or shift (for 10m increments).	The Z (north-south) coordinate of the center of the overlay image projection, in meters.  This can also be changed in-game using the up and down arrow keys while holding down control (for 1m increments) or shift (for 10m increments).	The Z (north-south) coordinate of the center of the overlay image projection, in meters.  This can also be changed in-game using the up and down arrow keys while holding down control (for 1m increments) or shift (for 10m increments).
+Options.OPTION	ResetPosition	Reset overlay position	Reset overlay position	Reset overlay position	Reset overlay position
+Options.OPTION_DESCRIPTION	ResetPosition	Resets the overlay position to the center of the map.	Resets the overlay position to the center of the map.	Resets the overlay position to the center of the map.	Resets the overlay position to the center of the map.
+Options.OPTION	Alpha	Overlay transparency	Overlay transparency	Transparencia de la imagen	覆盖图像的透明度
+Options.OPTION_DESCRIPTION	Alpha	The transparency of the image; 0% is fully opaque and 100% is fully transparent (invisible).	The transparency of the image; 0% is fully opaque and 100% is fully transparent (invisible).	La transparencia de la imagen; 0% es totalmente opaca y 100% totalmente transparente (invisible).	覆盖图像的透明度；0%为完全不透明，100%为完全透明（不可见）。

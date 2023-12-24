@@ -36,6 +36,8 @@ namespace ImageOverlay
 
         // Overlay attributes.
         private float _overlaySize = VanillaMapSize;
+        private float _overlayPosX = 0f;
+        private float _overlayPosZ = 0f;
         private float _alpha = 0f;
 
         /// <summary>
@@ -125,6 +127,56 @@ namespace ImageOverlay
         public bool ResetToVanilla
         {
             set => OverlaySize = VanillaMapSize;
+        }
+
+        /// <summary>
+        /// Gets or sets the overlay Y-position (actually Z in Unity-speak, but let's not confuse the users too much).
+        /// </summary>
+        [SettingsUISlider(min = -VanillaMapSize / 2f, max = VanillaMapSize / 2f, step = 1f, scalarMultiplier = 1f)]
+        [SettingsUISection("OverlayPosition")]
+        public float OverlayPosX
+        {
+            get => _overlayPosX;
+            set
+            {
+                if (_overlayPosX != value)
+                {
+                    _overlayPosX = value;
+                    ImageOverlaySystem.Instance?.SetPositionX(value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the overlay Z-position.
+        /// </summary>
+        [SettingsUISlider(min = -VanillaMapSize / 2f, max = VanillaMapSize / 2f, step = 1f, scalarMultiplier = 1f)]
+        [SettingsUISection("OverlayPosition")]
+        public float OverlayPosZ
+        {
+            get => _overlayPosZ;
+            set
+            {
+                if (_overlayPosZ != value)
+                {
+                    _overlayPosZ = value;
+                    ImageOverlaySystem.Instance?.SetPositionZ(value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets a value indicating whether the overlay position should be reset to default.
+        /// </summary>
+        [SettingsUIButton]
+        [SettingsUISection("OverlayPosition")]
+        public bool ResetPosition
+        {
+            set
+            {
+                OverlayPosX = 0f;
+                OverlayPosZ = 0f;
+            }
         }
 
         /// <summary>

@@ -16,7 +16,6 @@ namespace ImageOverlay
     using Game.Simulation;
     using Unity.Mathematics;
     using UnityEngine;
-    using UnityEngine.InputSystem;
 
     /// <summary>
     /// The historical start mod system.
@@ -80,6 +79,36 @@ namespace ImageOverlay
         }
 
         /// <summary>
+        /// Sets the overlay's X-position.
+        /// </summary>
+        /// <param name="posX">X position, in metres.</param>
+        internal void SetPositionX(float posX)
+        {
+            // Only refresh if there's an existing overlay object.
+            if (_overlayObject)
+            {
+                Vector3 newPos = _overlayObject.transform.position;
+                newPos.x = posX;
+                _overlayObject.transform.position = newPos;
+            }
+        }
+
+        /// <summary>
+        /// Sets the overlay's Z-position.
+        /// </summary>
+        /// <param name="posZ">Z position, in metres.</param>
+        internal void SetPositionZ(float posZ)
+        {
+            // Only refresh if there's an existing overlay object.
+            if (_overlayObject)
+            {
+                Vector3 newPos = _overlayObject.transform.position;
+                newPos.z = posZ;
+                _overlayObject.transform.position = newPos;
+            }
+        }
+
+        /// <summary>
         /// Called when the system is created.
         /// </summary>
         protected override void OnCreate()
@@ -109,15 +138,15 @@ namespace ImageOverlay
             InputBindingsManager.Instance.AddAction("ImageOverlayUp", "<Keyboard>/pageup", controlKey, () => ChangeHeight(5f));
             InputBindingsManager.Instance.AddAction("ImageOverlayDown", "<Keyboard>/pagedown", controlKey, () => ChangeHeight(-5f));
 
-            InputBindingsManager.Instance.AddAction("ImageOverlayNorth", "<Keyboard>/uparrow", controlKey, () => ChangePosition(0f, 1f));
-            InputBindingsManager.Instance.AddAction("ImageOverlaySouth", "<Keyboard>/downarrow", controlKey, () => ChangePosition(0f, -1f));
-            InputBindingsManager.Instance.AddAction("ImageOverlayEast", "<Keyboard>/rightarrow", controlKey, () => ChangePosition(1f, 0f));
-            InputBindingsManager.Instance.AddAction("ImageOverlayWest", "<Keyboard>/leftarrow", controlKey, () => ChangePosition(-1f, 0f));
+            InputBindingsManager.Instance.AddAction("ImageOverlayNorth", "<Keyboard>/uparrow", controlKey, () => Mod.Instance.ActiveSettings.OverlayPosZ += 1f);
+            InputBindingsManager.Instance.AddAction("ImageOverlaySouth", "<Keyboard>/downarrow", controlKey, () => Mod.Instance.ActiveSettings.OverlayPosZ -= 1f);
+            InputBindingsManager.Instance.AddAction("ImageOverlayEast", "<Keyboard>/rightarrow", controlKey, () => Mod.Instance.ActiveSettings.OverlayPosX += 1f);
+            InputBindingsManager.Instance.AddAction("ImageOverlayWest", "<Keyboard>/leftarrow", controlKey, () => Mod.Instance.ActiveSettings.OverlayPosX -= 1f);
 
-            InputBindingsManager.Instance.AddAction("ImageOverlayNorthLarge", "<Keyboard>/uparrow", shiftKey, () => ChangePosition(0f, 10f));
-            InputBindingsManager.Instance.AddAction("ImageOverlaySouthLarge", "<Keyboard>/downarrow", shiftKey, () => ChangePosition(0f, -10f));
-            InputBindingsManager.Instance.AddAction("ImageOverlayEastLarge", "<Keyboard>/rightarrow", shiftKey, () => ChangePosition(10f, 0f));
-            InputBindingsManager.Instance.AddAction("ImageOverlayWestLarge", "<Keyboard>/leftarrow", shiftKey, () => ChangePosition(-10f, 0f));
+            InputBindingsManager.Instance.AddAction("ImageOverlayNorthLarge", "<Keyboard>/uparrow", shiftKey, () => Mod.Instance.ActiveSettings.OverlayPosZ += 10f);
+            InputBindingsManager.Instance.AddAction("ImageOverlaySouthLarge", "<Keyboard>/downarrow", shiftKey, () => Mod.Instance.ActiveSettings.OverlayPosZ -= 10f);
+            InputBindingsManager.Instance.AddAction("ImageOverlayEastLarge", "<Keyboard>/rightarrow", shiftKey, () => Mod.Instance.ActiveSettings.OverlayPosX += 10f);
+            InputBindingsManager.Instance.AddAction("ImageOverlayWestLarge", "<Keyboard>/leftarrow", shiftKey, () => Mod.Instance.ActiveSettings.OverlayPosX -= 10f);
 
             InputBindingsManager.Instance.AddAction("ImageOverlayRotateRight", "<Keyboard>/period", controlKey, () => Rotate(90f));
             InputBindingsManager.Instance.AddAction("ImageOverlayRotateLeft", "<Keyboard>/comma", controlKey, () => Rotate(-90f));
@@ -206,20 +235,6 @@ namespace ImageOverlay
         }
 
         /// <summary>
-        /// Changes the overlay position by the given adjustment.
-        /// </summary>
-        /// <param name="xAdjustment">X-position adjustment.</param>
-        /// <param name="zAdjustment">Z-position adjustment.</param>
-        private void ChangePosition(float xAdjustment, float zAdjustment)
-        {
-            // Null check.
-            if (_overlayObject)
-            {
-                _overlayObject.transform.position += new Vector3(xAdjustment, 0f, zAdjustment);
-            }
-        }
-
-        /// <summary>
         /// Rotates the overlay around the centre (y-axis) by the given amount in degrees.
         /// </summary>
         /// <param name="rotation">Rotation in degrees.</param>
@@ -295,7 +310,7 @@ namespace ImageOverlay
                 // Set overlay position to centre of map, 5m above surface level.
                 TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
                 WaterSurfaceData waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
-                _overlayObject.transform.position = new Vector3(0f, WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero) + 5f, 0f);
+                _overlayObject.transform.position = new Vector3(Mod.Instance.ActiveSettings.OverlayPosX, WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero) + 5f, Mod.Instance.ActiveSettings.OverlayPosZ);
 
                 // Attach material to GameObject.
                 _overlayObject.GetComponent<Renderer>().material = _overlayMaterial;
