@@ -331,7 +331,7 @@ namespace ImageOverlay
             try
             {
                 _log.Info("loading overlay shader");
-                using StreamReader reader = new (Assembly.GetExecutingAssembly().GetManifestResourceStream("ImageOverlayLite.Shader.shaderbundle"));
+                using StreamReader reader = new (Assembly.GetExecutingAssembly().GetManifestResourceStream("ImageOverlay.Shader.shaderbundle"));
                 {
                     // Extract shader from file.
                     _overlayShader = AssetBundle.LoadFromStream(reader.BaseStream)?.LoadAsset<Shader>("UnlitTransparentAdditive.shader");

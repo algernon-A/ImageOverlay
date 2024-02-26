@@ -6,10 +6,11 @@
 		<Authors>algernon</Authors>
 		<Copyright>Copyright © 2023-24 algernon (github.com/algernon-A). All rights reserved.</Copyright>
 		<Product>$(Title)</Product>
-		<Version>0.2.0.1</Version>
-		<LangVersion>9.0</LangVersion>
+		<Version>0.9</Version>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<TargetFramework>net472</TargetFramework>
+		<LangVersion>9.0</LangVersion>
 		<Configurations>Debug;Release</Configurations>
 		<PDXAccountDataPath>$(USERPROFILE)\Documents\pdx_account.txt</PDXAccountDataPath>
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
@@ -18,19 +19,20 @@
 	<Import Project="Config/References.csproj" />
 	<Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.props" />
 	<Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.targets" />
+
+	<ItemGroup>
+		<None Include="$(ModPropsFile)" Link="Properties/Mod.props" />
+		<None Include="$(ModTargetsFile)" Link="Properties/Mod.targets" />
+	</ItemGroup>
 	
+	<ItemGroup>
+		<None Include="Config/References.csproj" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<AdditionalFiles Include="stylecop.json" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <EmbeddedResource Include="l10n.csv" />
-	  <EmbeddedResource Include="Shader\shaderbundle" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Include="Config/References.csproj" />
-	  <None Include="Properties\PublishProfiles\PublishNewMod.pubxml.user" />
-	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Lib.Harmony" Version="2.2.2" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
@@ -38,4 +40,13 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="l10n.csv" />
+		<EmbeddedResource Include="Shader\shaderbundle" />
+	</ItemGroup>
+
+	<Target Name="SetDescription" BeforeTargets="BeforeBuild">
+		<XmlPoke XmlInputPath="$(PublishConfigurationPath)" Value="$([System.IO.File]::ReadAllText($(ProjectDir)/Properties/LongDescription.md)))" Query="//LongDescription" />
+	</Target>
 </Project>

@@ -1,13 +1,4 @@
-<Publish>
-  <!--Id must be set in order to update existed mod. it is not required for publishing mod for the first time-->
-  <ModId Value="74539" />
-  <!--Name of the mod to display to players-->
-  <DisplayName Value="Image Overlay" />
-  <!--Short description of the mod-->
-  <ShortDescription Value="Overlay an image on the game map" />
-  <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
-  <!--LongDescription Value="This is a very, very, very long description." /-->
-  <LongDescription>A simple mod to **Overlay an image on the game map**.
+A simple mod to **Overlay an image on the game map**.
 
 Includes the ability to quickly and easily select and change between different images for the overlay.  The size, position, rotation, and transparency of the overlay can also be adjusted.
 
@@ -41,26 +32,3 @@ Requested by AmiPolizeiFunk to assist with map creation and real-life city recre
 
 ### Modders
 Modders (and aspiring modders!), as always I'm available and happy to chat about what I've done and answer any questions, and also about how you can implement anything that I've done for your own mods. Come grab me on the Cities: Skylines Modding Discord!
-)</LongDescription>
-  <!--Thumbnail-->
-  <Thumbnail Value="Properties/Thumbnail.png" />
-  <!--Screenshot, can be set multiple-->
-  <Screenshot Value="" />
-  <!--Tag, can be set multiple-->
-  <Tag Value="Code Mod" />
-  <!--Link to the forum post where the mod can be discussed-->
-  <ForumLink Value="" />
-  <!--Version of the mod-->
-  <ModVersion Value="0.9" />
-  <!--Recommended version of the base game to use the mod-->
-  <GameVersion Value="1.0.*" />
-  <!--Dependency for the mod, can be set multiple-->
-  <Dependency Id="" DisplayName="" Version="" />
-  <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
-  <ChangeLog Value="Update publish configuration." />
-  <!--ChangeLog>
-	</ChangeLog-->
-  <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
-  <ExternalLink Type="github" Url="https://github.com/algernon-A/ImageOverlay" />
-  <ExternalLink Type="discord" Url="https://discord.gg/7rTsfUdfTf" />
-</Publish>
