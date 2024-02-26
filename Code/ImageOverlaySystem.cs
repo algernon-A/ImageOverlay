@@ -298,7 +298,7 @@ namespace ImageOverlay
                 // Load texture.
                 UpdateOverlayTexture();
 
-                 // Create basic plane.
+                // Create basic plane.
                 _overlayObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
 
                 // Apply scale.

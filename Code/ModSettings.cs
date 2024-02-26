@@ -182,7 +182,7 @@ namespace ImageOverlay
         /// <summary>
         /// Gets or sets the overlay alpha.
         /// </summary>
-        [SettingsUISlider(min =0f, max = 95f, step = 5f, scalarMultiplier = 100f, unit = Unit.kPercentage)]
+        [SettingsUISlider(min = 0f, max = 95f, step = 5f, scalarMultiplier = 100f, unit = Unit.kPercentage)]
         [SettingsUISection("Alpha")]
         public float Alpha
         {
