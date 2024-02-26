@@ -72,7 +72,8 @@ namespace ImageOverlay
         /// <summary>
         /// Called by the game when the mod is loaded.
         /// </summary>
-        public void OnLoad()
+        /// <param name="updateSystem">Game update system.</param>
+        public void OnLoad(UpdateSystem updateSystem)
         {
             // Set instance reference.
             Instance = this;
@@ -97,15 +98,8 @@ namespace ImageOverlay
 
             // Load saved settings.
             AssetDatabase.global.LoadSettings("ImageOverlaySettings", ActiveSettings, new ModSettings(this));
-        }
 
-        /// <summary>
-        /// Called by the game when the game world is created.
-        /// </summary>
-        /// <param name="updateSystem">Game update system.</param>
-        public void OnCreateWorld(UpdateSystem updateSystem)
-        {
-            Log.Info("starting OnCreateWorld");
+            // Enable system.
             updateSystem.UpdateAt<ImageOverlaySystem>(SystemUpdatePhase.ToolUpdate);
         }
 
