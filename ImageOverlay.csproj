@@ -6,7 +6,7 @@
 		<Authors>algernon</Authors>
 		<Copyright>Copyright © 2023-24 algernon (github.com/algernon-A). All rights reserved.</Copyright>
 		<Product>$(Title)</Product>
-		<Version>0.9</Version>
+		<Version>0.9.1</Version>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<TargetFramework>net472</TargetFramework>
@@ -34,7 +34,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Lib.Harmony" Version="2.2.2" />
+		<PackageReference Include="Lib.Harmony.Thin" Version="2.3.0.1" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -42,7 +42,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="l10n.csv" />
+		<EmbeddedResource Include="l10n\de-DE.csv" />
+		<EmbeddedResource Include="l10n\en-US.csv" />
+		<EmbeddedResource Include="l10n\es-ES.csv" />
+		<EmbeddedResource Include="l10n\ja-JP.csv" />
+		<EmbeddedResource Include="l10n\ro-RO.csv" />
+		<EmbeddedResource Include="l10n\sv-SE.csv" />
+		<EmbeddedResource Include="l10n\zh-HANS.csv" />
+		<EmbeddedResource Include="l10n\zh-HANT.csv" />
 		<EmbeddedResource Include="Shader\shaderbundle" />
 	</ItemGroup>
 

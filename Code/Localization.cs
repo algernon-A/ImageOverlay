@@ -28,40 +28,50 @@ namespace ImageOverlay
         /// <param name="log">Log to use.</param>
         public static void LoadTranslations(ModSetting settings, ILog log)
         {
+            Assembly thisAssembly = Assembly.GetExecutingAssembly();
+            string[] resourceNames = thisAssembly.GetManifestResourceNames();
+
             try
             {
-                // Read embedded file.
-                using StreamReader reader = new (Assembly.GetExecutingAssembly().GetManifestResourceStream("ImageOverlay.l10n.csv"));
+                foreach (string localeID in GameManager.instance.localizationManager.GetSupportedLocales())
                 {
-                    List<string> lines = new ();
-                    while (!reader.EndOfStream)
-                    {
-                        lines.Add(reader.ReadLine());
-                    }
-
-                    // Iterate through each game locale.
-                    log.Debug("parsing translation file");
-                    IEnumerable<string[]> fileLines = lines.Select(x => x.Split('\t'));
-                    foreach (string localeID in GameManager.instance.localizationManager.GetSupportedLocales())
+                    string resourceName = "ImageOverlay.l10n." + localeID + ".csv";
+                    if (resourceNames.Contains(resourceName))
                     {
                         try
                         {
-                            // Find matching column in file.
-                            int valueColumn = Array.IndexOf(fileLines.First(), localeID);
+                            log.Info($"reading translation file {resourceName}");
 
-                            // Make sure a valid column has been found (column 0 is the binding context and column 1 is the translation key).
-                            if (valueColumn > 1)
+                            // Read embedded file.
+                            using StreamReader reader = new (thisAssembly.GetManifestResourceStream(resourceName));
                             {
+                                Dictionary<string, string> languageDict = new ();
+
+                                while (!reader.EndOfStream)
+                                {
+                                    // Skip empty lines.
+                                    string line = reader.ReadLine();
+                                    if (!string.IsNullOrWhiteSpace(line))
+                                    {
+                                        string[] columns = line.Split('\t');
+
+                                        if (columns.Length > 1)
+                                        {
+                                            // Trim quotation marks.
+                                            languageDict.Add(GenerateOptionsKey(columns[0].Trim('"'), settings), columns[1].Trim('"'));
+                                        }
+                                    }
+                                }
+
                                 // Add translations to game locales.
-                                log.Debug("found translation for " + localeID);
-                                MemorySource language = new (fileLines.Skip(1).ToDictionary(x => GenerateOptionsKey(x[0], x[1], settings), x => x.ElementAtOrDefault(valueColumn)));
-                                GameManager.instance.localizationManager.AddSource(localeID, language);
+                                log.Info("adding translation for " + localeID);
+                                GameManager.instance.localizationManager.AddSource(localeID, new MemorySource(languageDict));
                             }
                         }
                         catch (Exception e)
                         {
                             // Don't let a single failure stop us.
-                            log.Error(e, "exception reading localization for locale " + localeID);
+                            log.Error(e, $"exception reading localization for locale {localeID}");
                         }
                     }
                 }
@@ -75,12 +85,17 @@ namespace ImageOverlay
         /// <summary>
         /// Generates a settings option localization key.
         /// </summary>
-        /// <param name="context">Key context.</param>
-        /// <param name="key">Key.</param>
+        /// <param name="translationKey">Translation key key.</param>
         /// <param name="settings">Settings instance.</param>
         /// <returns>Full option localization key.</returns>
-        private static string GenerateOptionsKey(string context, string key, ModSetting settings)
+        private static string GenerateOptionsKey(string translationKey, ModSetting settings)
         {
+            int divider = translationKey.IndexOf(':');
+            string context = translationKey.Remove(divider);
+            string key = translationKey.Substring(divider + 1);
+
+            Mod.Instance.Log.Info($"generating options context {context} and key {key} from {translationKey}");
+
             return context switch
             {
                 "Options.OPTION" => settings.GetOptionLabelLocaleID(key),

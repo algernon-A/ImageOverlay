@@ -51,13 +51,13 @@ Modders (and aspiring modders!), as always I'm available and happy to chat about
   <!--Link to the forum post where the mod can be discussed-->
   <ForumLink Value="" />
   <!--Version of the mod-->
-  <ModVersion Value="0.9" />
+  <ModVersion Value="0.9.1" />
   <!--Recommended version of the base game to use the mod-->
   <GameVersion Value="1.0.*" />
   <!--Dependency for the mod, can be set multiple-->
   <Dependency Id="" DisplayName="" Version="" />
   <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
-  <ChangeLog Value="Update publish configuration." />
+  <ChangeLog Value="Update localization format." />
   <!--ChangeLog>
 	</ChangeLog-->
   <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
