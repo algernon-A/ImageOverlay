@@ -24,7 +24,7 @@ namespace ImageOverlay
     {
         /// <summary>
         /// Loads settings translations from embedded .csv files.
-        /// Files must be embedded under i10n in the assembly and be named for their game locale, e.g. '{Project}/l10n/en-US.csv', '{Project}/l10n/zh-HANS.csv'.
+        /// Files must be embedded under l10n in the assembly and be named for their game locale, e.g. '{Project}/l10n/en-US.csv', '{Project}/l10n/zh-HANS.csv'.
         /// Filenames not matching a supported game locale are ignored.
         ///
         /// Files can be either comma- or tab- delimeted, with two columns in each line:
@@ -61,13 +61,13 @@ namespace ImageOverlay
                             log.Info($"Reading embedded translation file {resourceName}");
 
                             // Read embedded file.
-                            using StreamReader reader = new(thisAssembly.GetManifestResourceStream(resourceName));
+                            using StreamReader reader = new (thisAssembly.GetManifestResourceStream(resourceName));
                             {
                                 // Dictionary to store translations.
-                                Dictionary<string, string> translations = new();
+                                Dictionary<string, string> translations = new ();
 
                                 // Parsing fields.
-                                StringBuilder builder = new();
+                                StringBuilder builder = new ();
                                 string key = null;
                                 bool parsingKey = true;
                                 bool quoting = false;

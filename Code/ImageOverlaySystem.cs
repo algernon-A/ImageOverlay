@@ -109,6 +109,18 @@ namespace ImageOverlay
         }
 
         /// <summary>
+        /// Updates the overlay's rotation to match current settings.
+        /// </summary>
+        internal void UpdateRotation()
+        {
+            // Only refresh if there's an existing overlay object.
+            if (_overlayObject)
+            {
+                _overlayObject.transform.rotation = Quaternion.Euler(0f, Mod.Instance.ActiveSettings.OverlayRotation, 0f);
+            }
+        }
+
+        /// <summary>
         /// Called when the system is created.
         /// </summary>
         protected override void OnCreate()
@@ -133,6 +145,7 @@ namespace ImageOverlay
             InputBindingsManager.Ensure();
             List<string> shiftKey = new () { "<Keyboard>/shift" };
             List<string> controlKey = new () { "<Keyboard>/ctrl" };
+            List<string> controlShift = new () { "<Keyboard>/shift", "<Keyboard>/ctrl" };
 
             InputBindingsManager.Instance.AddAction("ImageOverlayToggle", "<Keyboard>/o", controlKey, ToggleOverlay);
             InputBindingsManager.Instance.AddAction("ImageOverlayUp", "<Keyboard>/pageup", controlKey, () => ChangeHeight(5f));
@@ -148,8 +161,12 @@ namespace ImageOverlay
             InputBindingsManager.Instance.AddAction("ImageOverlayEastLarge", "<Keyboard>/rightarrow", shiftKey, () => Mod.Instance.ActiveSettings.OverlayPosX += 10f);
             InputBindingsManager.Instance.AddAction("ImageOverlayWestLarge", "<Keyboard>/leftarrow", shiftKey, () => Mod.Instance.ActiveSettings.OverlayPosX -= 10f);
 
-            InputBindingsManager.Instance.AddAction("ImageOverlayRotateRight", "<Keyboard>/period", controlKey, () => Rotate(90f));
-            InputBindingsManager.Instance.AddAction("ImageOverlayRotateLeft", "<Keyboard>/comma", controlKey, () => Rotate(-90f));
+            InputBindingsManager.Instance.AddAction("ImageOverlayRotateRight", "<Keyboard>/period", controlKey, () => Rotate(1f));
+            InputBindingsManager.Instance.AddAction("ImageOverlayRotateLeft", "<Keyboard>/comma", controlKey, () => Rotate(-1f));
+
+            // These are additional to the single degree.
+            InputBindingsManager.Instance.AddAction("ImageOverlayRotateRight90", "<Keyboard>/period", controlShift, () => Rotate(89f));
+            InputBindingsManager.Instance.AddAction("ImageOverlayRotateLeft90", "<Keyboard>/comma", controlShift, () => Rotate(-89f));
 
             InputBindingsManager.Instance.AddAction("ImageOverlaySizeUp", "<Keyboard>/equals", controlKey, () => Mod.Instance.ActiveSettings.OverlaySize += 10f);
             InputBindingsManager.Instance.AddAction("ImageOverlaySizeDown", "<Keyboard>/minus", controlKey, () => Mod.Instance.ActiveSettings.OverlaySize -= 10f);
@@ -238,14 +255,7 @@ namespace ImageOverlay
         /// Rotates the overlay around the centre (y-axis) by the given amount in degrees.
         /// </summary>
         /// <param name="rotation">Rotation in degrees.</param>
-        private void Rotate(float rotation)
-        {
-            // Null check.
-            if (_overlayObject)
-            {
-                _overlayObject.transform.Rotate(new Vector3(0f, rotation, 0f), Space.Self);
-            }
-        }
+        private void Rotate(float rotation) => Mod.Instance.ActiveSettings.OverlayRotation += rotation;
 
         /// <summary>
         /// Updates the overlay texture.
@@ -311,6 +321,9 @@ namespace ImageOverlay
                 TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
                 WaterSurfaceData waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
                 _overlayObject.transform.position = new Vector3(Mod.Instance.ActiveSettings.OverlayPosX, WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero) + 5f, Mod.Instance.ActiveSettings.OverlayPosZ);
+
+                // Apply rotation.
+                UpdateRotation();
 
                 // Attach material to GameObject.
                 _overlayObject.GetComponent<Renderer>().material = _overlayMaterial;

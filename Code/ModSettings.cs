@@ -38,6 +38,7 @@ namespace ImageOverlay
         private float _overlaySize = VanillaMapSize;
         private float _overlayPosX = 0f;
         private float _overlayPosZ = 0f;
+        private float _overlayRotation = 0f;
         private float _alpha = 0f;
 
         /// <summary>
@@ -176,6 +177,50 @@ namespace ImageOverlay
             {
                 OverlayPosX = 0f;
                 OverlayPosZ = 0f;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the overlay rotation.
+        /// </summary>
+        [SettingsUISlider(min = -180f, max = 180f, step = 1f, scalarMultiplier = 1f)]
+        [SettingsUISection("OverlayRotation")]
+        public float OverlayRotation
+        {
+            get => _overlayRotation;
+            set
+            {
+                if (_overlayRotation != value)
+                {
+                    _overlayRotation = value;
+
+                    // Bounds check.
+                    if (_overlayRotation < -180f)
+                    {
+                        _overlayRotation += 360f;
+                    }
+
+                    if (_overlayRotation > 180f)
+                    {
+                        _overlayRotation -= 360f;
+                    }
+
+                    // Update any existing overlay.
+                    ImageOverlaySystem.Instance?.UpdateRotation();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets a value indicating whether the overlay rotation should be reset to default.
+        /// </summary>
+        [SettingsUIButton]
+        [SettingsUISection("OverlayRotation")]
+        public bool ResetRotation
+        {
+            set
+            {
+                OverlayRotation = 0f;
             }
         }
 

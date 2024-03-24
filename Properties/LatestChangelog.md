@@ -1,0 +1,1 @@
+- Add rotation slider and single-degree rotation controls.
