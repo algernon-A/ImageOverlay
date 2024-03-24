@@ -45,7 +45,10 @@
 		<EmbeddedResource Include="l10n\de-DE.csv" />
 		<EmbeddedResource Include="l10n\en-US.csv" />
 		<EmbeddedResource Include="l10n\es-ES.csv" />
+		<EmbeddedResource Include="l10n\it-IT.csv" />
 		<EmbeddedResource Include="l10n\ja-JP.csv" />
+		<EmbeddedResource Include="l10n\nl-NL.csv" />
+		<EmbeddedResource Include="l10n\pl-PL.csv" />
 		<EmbeddedResource Include="l10n\ro-RO.csv" />
 		<EmbeddedResource Include="l10n\sv-SE.csv" />
 		<EmbeddedResource Include="l10n\zh-HANS.csv" />
