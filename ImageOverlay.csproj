@@ -6,7 +6,7 @@
 		<Authors>algernon</Authors>
 		<Copyright>Copyright © 2023-24 algernon (github.com/algernon-A). All rights reserved.</Copyright>
 		<Product>$(Title)</Product>
-		<Version>0.9.2</Version>
+		<Version>1.0</Version>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<TargetFramework>net472</TargetFramework>
@@ -58,7 +58,8 @@
 
 	<Target Name="SetDescription" BeforeTargets="BeforeBuild">
 		<XmlPoke XmlInputPath="$(PublishConfigurationPath)" Value="$([System.IO.File]::ReadAllText($(ProjectDir)/Properties/LongDescription.md))" Query="//LongDescription" />
-		<XmlPoke XmlInputPath="$(PublishConfigurationPath)" Value="$([System.IO.File]::ReadAllText($(ProjectDir)/CHANGELOG.md))" Query="//ChangeLog" />
+		<XmlPoke XmlInputPath="$(PublishConfigurationPath)" Value="$([System.IO.File]::ReadAllText($(ProjectDir)/Properties/LatestChangelog.md))" Query="//ChangeLog" />
+		<XmlPoke XmlInputPath="$(PublishConfigurationPath)" Value="$(Version)" Query="//ModVersion/@Value" />
 	</Target>
 
 	<Target Name="Cleanup" AfterTargets="AfterBuild">

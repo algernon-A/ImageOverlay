@@ -40,11 +40,10 @@ Modders (and aspiring modders!), as always I'm available and happy to chat about
   <Screenshot Value="" />
   <Tag Value="Code Mod" />
   <ForumLink Value="" />
-  <ModVersion Value="0.9.3" />
-  <GameVersion Value="1.0.*" />
+  <ModVersion Value="1.0" />
+  <GameVersion Value="1.1.*" />
   <Dependency Id="" DisplayName="" Version="" />
-  <ChangeLog>
-  </ChangeLog>
+  <ChangeLog>- Add rotation slider and single-degree rotation controls.</ChangeLog>
   <ExternalLink Type="github" Url="https://github.com/algernon-A/ImageOverlay" />
   <ExternalLink Type="discord" Url="https://discord.gg/7rTsfUdfTf" />
 </Publish>

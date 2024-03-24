@@ -21,7 +21,7 @@ Requested by AmiPolizeiFunk to assist with map creation and real-life city recre
 - Press **Control-PageUp** and **Control-PageDown** to raise or lower the level of the overlay.
 - To rotate the overlay 90 degrees, press **Control-.** (period) or **Control-,** (comma).
 - To move the overlay horizontally, use the **arrow keys** with either **Control** (move 1m at a time) or **Shift** (move 10m at a time).
-- You can also use the sliders in the settings panel to change the position.
+- You can also use the sliders in the settings panel to change the position and rotation.
 
 ### Resizing the overlay
 - Press **Control-Minus** and **Control-Equals** to shrink or expand the size of the overlay.
