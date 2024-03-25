@@ -39,9 +39,8 @@ Modders (and aspiring modders!), as always I'm available and happy to chat about
   <Thumbnail Value="Properties/Thumbnail.png" />
   <Screenshot Value="Properties/Thumbnail.png" />
   <Screenshot Value="Properties/Screenshots/ImageOverlayOptions.jpg" />
-  <Screenshot Value="" />
   <Tag Value="Code Mod" />
-  <ForumLink Value="" />
+  <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/image-overlay.1644740/" />
   <ModVersion Value="1.0.0.1" />
   <GameVersion Value="1.1.*" />
   <Dependency Id="" DisplayName="" Version="" />
