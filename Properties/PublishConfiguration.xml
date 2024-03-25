@@ -42,10 +42,10 @@ Modders (and aspiring modders!), as always I'm available and happy to chat about
   <Screenshot Value="" />
   <Tag Value="Code Mod" />
   <ForumLink Value="" />
-  <ModVersion Value="1.0" />
+  <ModVersion Value="1.0.0.1" />
   <GameVersion Value="1.1.*" />
   <Dependency Id="" DisplayName="" Version="" />
-  <ChangeLog>- Add rotation slider and single-degree rotation controls.</ChangeLog>
+  <ChangeLog>- Downgrade Harmony to 2.2.2 to keep TDW happy.</ChangeLog>
   <ExternalLink Type="github" Url="https://github.com/algernon-A/ImageOverlay" />
   <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 </Publish>
