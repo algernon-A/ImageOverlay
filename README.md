@@ -36,7 +36,11 @@ Requested by AmiPolizeiFunk to assist with map creation and real-life city recre
 ### Changing the overlay's transparency
 - Use the slider in the settings panel to change the overlay's transparency. 0% (default) is fully opaque and 100% is fully transparent (invisible).
 
+## Meta
+### Translations
+This mod supports localization via a [CrowdIn project](https://crowdin.com/project/image-overlay).  Please help out if you can!  
+
 ### Modders
 Modders (and aspiring modders!), as always I'm available and happy to chat about what I've done and answer any questions, and also about how you can implement anything that I've done for your own mods.  Come grab me on the [Cities Skylines Modding Discord](https://discord.gg/HTav7ARPs2)!
 
-Pull requests welcome!
+Pull requests welcome! Note that translations should be submitted via CrowdIn (see link above), and not by PR.
