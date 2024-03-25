@@ -37,6 +37,8 @@ Requested by AmiPolizeiFunk to assist with map creation and real-life city recre
 ### Modders
 Modders (and aspiring modders!), as always I'm available and happy to chat about what I've done and answer any questions, and also about how you can implement anything that I've done for your own mods. Come grab me on the Cities: Skylines Modding Discord!</LongDescription>
   <Thumbnail Value="Properties/Thumbnail.png" />
+  <Screenshot Value="Properties/Thumbnail.png" />
+  <Screenshot Value="Properties/Screenshots/ImageOverlayOptions.jpg" />
   <Screenshot Value="" />
   <Tag Value="Code Mod" />
   <ForumLink Value="" />
@@ -45,5 +47,5 @@ Modders (and aspiring modders!), as always I'm available and happy to chat about
   <Dependency Id="" DisplayName="" Version="" />
   <ChangeLog>- Add rotation slider and single-degree rotation controls.</ChangeLog>
   <ExternalLink Type="github" Url="https://github.com/algernon-A/ImageOverlay" />
-  <ExternalLink Type="discord" Url="https://discord.gg/7rTsfUdfTf" />
+  <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 </Publish>
