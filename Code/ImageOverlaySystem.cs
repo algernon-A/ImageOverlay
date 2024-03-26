@@ -320,9 +320,6 @@ namespace ImageOverlay
                 // Apply scale.
                 SetSize(Mod.Instance.ActiveSettings.OverlaySize);
 
-                // Initial rotation to align to map.
-                Rotate(180f);
-
                 // Set overlay position to centre of map, 5m above surface level.
                 TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
                 WaterSurfaceData waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);

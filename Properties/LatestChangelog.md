@@ -1,1 +1,1 @@
-- Remove redundant Harmony lib.
+- Change default rotation by 180 degrees.
