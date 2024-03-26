@@ -86,9 +86,6 @@ namespace ImageOverlay
 #endif
             Log.Info($"loading {ModName} version {Assembly.GetExecutingAssembly().GetName().Version}");
 
-            // Apply harmony patches.
-            new Patcher("algernon-ImageOverlay", Log);
-
             // Register mod settings to game options UI.
             ActiveSettings = new (this);
             ActiveSettings.RegisterInOptionsUI();
@@ -108,10 +105,8 @@ namespace ImageOverlay
         /// </summary>
         public void OnDispose()
         {
+            Instance = null;
             Log.Info("disposing");
-
-            // Revert harmony patches.
-            Patcher.Instance?.UnPatchAll();
         }
     }
 }

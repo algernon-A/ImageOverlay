@@ -8,14 +8,11 @@ namespace ImageOverlay
 {
     using System.Collections.Generic;
     using Colossal.Logging;
-    using Game.Input;
-    using HarmonyLib;
     using UnityEngine.InputSystem;
 
     /// <summary>
     /// Management of input bindings.
     /// </summary>
-    [HarmonyPatch]
     internal class InputBindingsManager
     {
         private const string MapName = "Shortcuts";

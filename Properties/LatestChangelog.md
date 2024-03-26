@@ -1,2 +1,1 @@
-- Overhaul input action registration.
-- Update logging.
+- Remove redundant Harmony lib.

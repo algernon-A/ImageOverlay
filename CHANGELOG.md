@@ -1,3 +1,6 @@
+### 1.0.1.1
+- Remove redundant Harmony lib.
+
 ### 1.0.1
 - Overhaul input action registration.
 - Update logging.
