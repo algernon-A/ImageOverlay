@@ -323,6 +323,7 @@ namespace ImageOverlay
                 // Set overlay position to centre of map, 5m above surface level.
                 TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
                 WaterSurfaceData waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
+                _log.Info($"terrain height is {WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero)}");
                 _overlayObject.transform.position = new Vector3(Mod.Instance.ActiveSettings.OverlayPosX, WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero) + 5f, Mod.Instance.ActiveSettings.OverlayPosZ);
 
                 // Apply rotation.

@@ -41,10 +41,10 @@ Modders (and aspiring modders!), as always I'm available and happy to chat about
   <Screenshot Value="Properties/Screenshots/ImageOverlayOptions.jpg" />
   <Tag Value="Code Mod" />
   <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/image-overlay.1644740/" />
-  <ModVersion Value="1.0.1.1" />
+  <ModVersion Value="1.0.2" />
   <GameVersion Value="1.1.*" />
   <Dependency Id="" DisplayName="" Version="" />
-  <ChangeLog>- Remove redundant Harmony lib.</ChangeLog>
+  <ChangeLog>- Change default rotation by 180 degrees.</ChangeLog>
   <ExternalLink Type="github" Url="https://github.com/algernon-A/ImageOverlay" />
   <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 </Publish>

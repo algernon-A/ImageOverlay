@@ -1,3 +1,4 @@
+### 1.0.2 
 - Change default rotation by 180 degrees.
 
 ### 1.0.1.1

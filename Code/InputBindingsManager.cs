@@ -15,8 +15,6 @@ namespace ImageOverlay
     /// </summary>
     internal class InputBindingsManager
     {
-        private const string MapName = "Shortcuts";
-
         private readonly ILog _log;
         private readonly Dictionary<string, InputAction> _actions;
 
