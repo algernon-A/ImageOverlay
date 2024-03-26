@@ -196,7 +196,7 @@ namespace ImageOverlay
                                 }
 
                                 // Add translation..
-                                log.Info($" - Adding translation for {localeID} with {translations.Count} entries");
+                                log.Debug($" - Adding translation for {localeID} with {translations.Count} entries");
                                 GameManager.instance.localizationManager.AddSource(localeID, new MemorySource(translations));
                             }
                         }

@@ -170,6 +170,8 @@ namespace ImageOverlay
 
             InputBindingsManager.Instance.AddAction("ImageOverlaySizeUp", "<Keyboard>/equals", controlKey, () => Mod.Instance.ActiveSettings.OverlaySize += 10f);
             InputBindingsManager.Instance.AddAction("ImageOverlaySizeDown", "<Keyboard>/minus", controlKey, () => Mod.Instance.ActiveSettings.OverlaySize -= 10f);
+
+            _log.Info("Finished OnCreate");
         }
 
         /// <summary>
@@ -212,6 +214,8 @@ namespace ImageOverlay
         /// </summary>
         private void ToggleOverlay()
         {
+            _log.Info("Toggling overlay");
+
             // Hide overlay if it's currently visible.
             if (_isVisible)
             {
@@ -301,8 +305,6 @@ namespace ImageOverlay
         /// </summary>
         private void CreateOverlay()
         {
-            _log.Info("creating overlay");
-
             // Dispose of any existing objects.
             DestroyObjects();
 

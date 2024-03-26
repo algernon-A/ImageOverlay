@@ -1,2 +1,2 @@
-- Add forced overlay directory rescan on load.
+- Overhaul input action registration.
 - Update logging.
