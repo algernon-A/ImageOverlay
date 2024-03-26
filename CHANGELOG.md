@@ -1,3 +1,4 @@
+### 1.0.1
 - Overhaul input action registration.
 - Update logging.
 
