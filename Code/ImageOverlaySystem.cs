@@ -236,6 +236,10 @@ namespace ImageOverlay
                 _overlayObject.SetActive(true);
                 _isVisible = true;
             }
+            else
+            {
+                _log.Info("Overlay object wasn't created");
+            }
         }
 
         /// <summary>

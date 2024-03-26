@@ -53,12 +53,12 @@ namespace ImageOverlay
                 {
                     string resourceName = $"{thisAssembly.GetName().Name}.l10n.{localeID}.csv";
 
-                    log.Info($"Found localization file {resourceName}");
+                    log.Debug($"Found localization file {resourceName}");
                     if (resourceNames.Contains(resourceName))
                     {
                         try
                         {
-                            log.Info($"Reading embedded translation file {resourceName}");
+                            log.Debug($"Reading embedded translation file {resourceName}");
 
                             // Read embedded file.
                             using StreamReader reader = new (thisAssembly.GetManifestResourceStream(resourceName));

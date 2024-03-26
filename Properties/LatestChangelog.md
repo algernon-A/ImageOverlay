@@ -1,1 +1,2 @@
-- Downgrade Harmony to 2.2.2 to keep TDW happy.
+- Add forced overlay directory rescan on load.
+- Update logging.

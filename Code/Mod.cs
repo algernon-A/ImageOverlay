@@ -99,6 +99,9 @@ namespace ImageOverlay
             // Load saved settings.
             AssetDatabase.global.LoadSettings("ImageOverlaySettings", ActiveSettings, new ModSettings(this));
 
+            // Refresh local overlay files, just to be sure.
+            ActiveSettings.UpdateFileList();
+
             // Enable system.
             updateSystem.UpdateAt<ImageOverlaySystem>(SystemUpdatePhase.ToolUpdate);
         }

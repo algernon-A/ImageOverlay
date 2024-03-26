@@ -83,6 +83,7 @@ namespace ImageOverlay
             {
                 if (_selectedOverlay != value)
                 {
+                    Mod.Instance.Log.Info($"Updating selected overlay to ${value}");
                     _selectedOverlay = value;
                     ImageOverlaySystem.Instance?.UpdateOverlay();
                 }
@@ -294,7 +295,7 @@ namespace ImageOverlay
         /// <summary>
         /// Updates the list of available overlay files.
         /// </summary>
-        private void UpdateFileList()
+        internal void UpdateFileList()
         {
             // Create overlay directory if it doesn't already exist.
             if (!Directory.Exists(_directoryPath))
@@ -304,7 +305,11 @@ namespace ImageOverlay
 
             _log.Info("refreshing overlay file list using directory " + _directoryPath);
             _fileList = Directory.GetFiles(_directoryPath, "*.png", SearchOption.TopDirectoryOnly);
-            _log.Debug(_fileList.Length);
+            foreach (string file in _fileList)
+            {
+                _log.Info($"    Found file: ${file})");
+            }
+
             ++_fileListVersion;
         }
     }
