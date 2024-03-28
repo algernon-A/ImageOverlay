@@ -44,7 +44,7 @@ Modders (and aspiring modders!), as always I'm available and happy to chat about
   <ModVersion Value="1.0.2" />
   <GameVersion Value="1.1.*" />
   <Dependency Id="" DisplayName="" Version="" />
-  <ChangeLog>- Change default rotation by 180 degrees.</ChangeLog>
+  <ChangeLog>- Adjust rotation for OSM and QGIS overlays.</ChangeLog>
   <ExternalLink Type="github" Url="https://github.com/algernon-A/ImageOverlay" />
   <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 </Publish>

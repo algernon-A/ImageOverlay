@@ -6,14 +6,14 @@
 
 namespace ImageOverlay
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Reflection;
     using Colossal.Logging;
     using Colossal.Serialization.Entities;
     using Game;
     using Game.Simulation;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
     using Unity.Mathematics;
     using UnityEngine;
 
@@ -116,7 +116,7 @@ namespace ImageOverlay
             // Only refresh if there's an existing overlay object.
             if (_overlayObject)
             {
-                _overlayObject.transform.rotation = Quaternion.Euler(0f, Mod.Instance.ActiveSettings.OverlayRotation, 0f);
+                _overlayObject.transform.rotation = Quaternion.Euler(0f, Mod.Instance.ActiveSettings.OverlayRotation + 180, 0f);
             }
         }
 

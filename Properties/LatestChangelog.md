@@ -1,1 +1,1 @@
-- Change default rotation by 180 degrees.
+- Adjust rotation for OSM and QGIS overlays.

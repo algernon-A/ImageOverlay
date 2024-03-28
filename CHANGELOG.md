@@ -1,3 +1,6 @@
+### 1.0.3 
+- Adjust rotation for OSM and QGIS overlays.
+
 ### 1.0.2 
 - Change default rotation by 180 degrees.
 
