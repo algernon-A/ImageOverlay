@@ -41,7 +41,7 @@ Modders (and aspiring modders!), as always I'm available and happy to chat about
   <Screenshot Value="Properties/Screenshots/ImageOverlayOptions.jpg" />
   <Tag Value="Code Mod" />
   <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/image-overlay.1644740/" />
-  <ModVersion Value="1.0.2" />
+  <ModVersion Value="1.0.3" />
   <GameVersion Value="1.1.*" />
   <Dependency Id="" DisplayName="" Version="" />
   <ChangeLog>- Adjust rotation for OSM and QGIS overlays.</ChangeLog>
