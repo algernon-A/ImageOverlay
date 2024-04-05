@@ -1,1 +1,1 @@
-- Adjust rotation for OSM and QGIS overlays.
+- Reduce minimum overlay size to 100m.

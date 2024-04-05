@@ -1,3 +1,6 @@
+### 1.0.4
+- Reduce minimum overlay size to 100m.
+
 ### 1.0.3 
 - Adjust rotation for OSM and QGIS overlays.
 

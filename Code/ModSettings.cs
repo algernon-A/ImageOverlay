@@ -106,7 +106,7 @@ namespace ImageOverlay
         /// <summary>
         /// Gets or sets the overlay size.
         /// </summary>
-        [SettingsUISlider(min = VanillaMapSize / 4f, max = VanillaMapSize * 4f, step = 1f, scalarMultiplier = 1f)]
+        [SettingsUISlider(min = 100f, max = VanillaMapSize * 4f, step = 1f, scalarMultiplier = 1f)]
         [SettingsUISection("OverlaySize")]
         public float OverlaySize
         {
