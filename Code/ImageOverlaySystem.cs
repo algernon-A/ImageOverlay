@@ -94,6 +94,21 @@ namespace ImageOverlay
         }
 
         /// <summary>
+        /// Sets the overlay's elevation.
+        /// </summary>
+        /// <param name="elevation">Elevation, in metres.</param>
+        internal void SetPositionY(float elevation)
+        {
+            // Only refresh if there's an existing overlay object.
+            if (_overlayObject)
+            {
+                Vector3 newPos = _overlayObject.transform.position;
+                newPos.y = elevation;
+                _overlayObject.transform.position = newPos;
+            }
+        }
+
+        /// <summary>
         /// Sets the overlay's Z-position.
         /// </summary>
         /// <param name="posZ">Z position, in metres.</param>
@@ -106,6 +121,16 @@ namespace ImageOverlay
                 newPos.z = posZ;
                 _overlayObject.transform.position = newPos;
             }
+        }
+
+        /// <summary>
+        /// Resets the overlay elevation to 5m above the surface level at the exact centre of the map.
+        /// </summary>
+        internal void ResetElevation()
+        {
+            TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
+            WaterSurfaceData waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
+            Mod.Instance.ActiveSettings.OverlayPosY = WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero) + 5f;
         }
 
         /// <summary>
@@ -250,14 +275,7 @@ namespace ImageOverlay
         /// Changes the overlay height by the given adjustment.
         /// </summary>
         /// <param name="adjustment">Height adjustment.</param>
-        private void ChangeHeight(float adjustment)
-        {
-            // Null check.
-            if (_overlayObject)
-            {
-                _overlayObject.transform.position += new Vector3(0f, adjustment, 0f);
-            }
-        }
+        private void ChangeHeight(float adjustment) => Mod.Instance.ActiveSettings.OverlayPosY += adjustment;
 
         /// <summary>
         /// Rotates the overlay around the centre (y-axis) by the given amount in degrees.
@@ -320,11 +338,12 @@ namespace ImageOverlay
                 // Apply scale.
                 SetSize(Mod.Instance.ActiveSettings.OverlaySize);
 
-                // Set overlay position to centre of map, 5m above surface level.
+                // Set overlay elevation.
+                ResetElevation();
                 TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
                 WaterSurfaceData waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
                 _log.Info($"terrain height is {WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero)}");
-                _overlayObject.transform.position = new Vector3(Mod.Instance.ActiveSettings.OverlayPosX, WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero) + 5f, Mod.Instance.ActiveSettings.OverlayPosZ);
+                _overlayObject.transform.position = new Vector3(Mod.Instance.ActiveSettings.OverlayPosX, Mod.Instance.ActiveSettings.OverlayPosY, Mod.Instance.ActiveSettings.OverlayPosZ);
 
                 // Apply rotation.
                 UpdateRotation();

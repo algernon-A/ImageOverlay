@@ -23,9 +23,9 @@ Requested by AmiPolizeiFunk to assist with map creation and real-life city recre
 
 ### Repositioning the overlay
 - Press **Control-PageUp** and **Control-PageDown** to raise or lower the level of the overlay.
-- To rotate the overlay, press **Control-.** (period) or **Control-,** (comma) to rotate 1 degree at a time, or press **Control-Shift** to rotate 90 degrees at a time..
+- To rotate the overlay, press **Control-.** (period) or **Control-,** (comma) to rotate 1 degree at a time, or press **Control-Shift** to rotate 90 degrees at a time.
 - To move the overlay horizontally, use the **arrow keys** with either **Control** (move 1m at a time) or **Shift** (move 10m at a time).
-- You can also use the sliders in the settings panel to change the position and rotation.
+- You can also use the sliders in the settings panel to change the position, elevation, and rotation.
 
 ### Resizing the overlay
 - Press **Control-Minus** and **Control-Equals** to shrink or expand the size of the overlay.
@@ -41,7 +41,7 @@ Modders (and aspiring modders!), as always I'm available and happy to chat about
   <Screenshot Value="Properties/Screenshots/ImageOverlayOptions.jpg" />
   <Tag Value="Code Mod" />
   <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/image-overlay.1644740/" />
-  <ModVersion Value="1.0.4" />
+  <ModVersion Value="1.0.4.99" />
   <GameVersion Value="1.1.*" />
   <Dependency Id="" DisplayName="" Version="" />
   <ChangeLog>- Reduce minimum overlay size to 100m.</ChangeLog>

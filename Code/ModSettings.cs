@@ -38,6 +38,7 @@ namespace ImageOverlay
         private float _overlaySize = VanillaMapSize;
         private float _overlayPosX = 0f;
         private float _overlayPosZ = 0f;
+        private float _overlayElevation = 0f;
         private float _overlayRotation = 0f;
         private float _alpha = 0f;
 
@@ -168,6 +169,24 @@ namespace ImageOverlay
         }
 
         /// <summary>
+        /// Gets or sets the overlay's elevation.
+        /// </summary>
+        [SettingsUISlider(min = -1000, max = 4000, step = 1f, scalarMultiplier = 1f)]
+        [SettingsUISection("OverlayPosition")]
+        public float OverlayPosY
+        {
+            get => _overlayElevation;
+            set
+            {
+                if (_overlayElevation != value)
+                {
+                    _overlayElevation = value;
+                    ImageOverlaySystem.Instance?.SetPositionY(value);
+                }
+            }
+        }
+
+        /// <summary>
         /// Sets a value indicating whether the overlay position should be reset to default.
         /// </summary>
         [SettingsUIButton]
@@ -178,6 +197,16 @@ namespace ImageOverlay
             {
                 OverlayPosX = 0f;
                 OverlayPosZ = 0f;
+
+                // Reset elevation to 5m above the surface level at the exact centre of the map.
+                if (ImageOverlaySystem.Instance is ImageOverlaySystem imageOverlaySystem)
+                {
+                    imageOverlaySystem.ResetElevation();
+                }
+                else
+                {
+                    OverlayPosY = 5f;
+                }
             }
         }
 

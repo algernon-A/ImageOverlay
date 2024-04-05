@@ -1,3 +1,5 @@
+- Add elevation slider to options panel.
+
 ### 1.0.4
 - Reduce minimum overlay size to 100m.
 

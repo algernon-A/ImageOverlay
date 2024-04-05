@@ -1,1 +1,1 @@
-- Reduce minimum overlay size to 100m.
+- Add elevation slider to options panel.
