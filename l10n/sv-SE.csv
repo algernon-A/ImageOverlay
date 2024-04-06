@@ -11,6 +11,8 @@
 "Options.OPTION_DESCRIPTION:OverlayPosX"	"X-koordinaten (öst-västlig) för mitten av överläggsbildprojektionen, i meter. Detta kan ändras i spelet med hjälp av vänster- och högerpiltangenterna medan du håller ned control (i 1m steg) eller shift (för 10m steg)."
 "Options.OPTION:OverlayPosZ"	"Överlägg Z-position"
 "Options.OPTION_DESCRIPTION:OverlayPosZ"	"Z-koordinaten (nord-sydlig) för mitten av överlagringsbildprojektionen, i meter. Detta kan också ändras i spelet med hjälp av upp- och nedpiltangenterna medan du håller ned control (i 1m steg) eller shift (för 10m steg)."
+"Options.OPTION:OverlayPosY"	"Overlay elevation"
+"Options.OPTION_DESCRIPTION:OverlayPosY"	"The elevation of the overlay image projection above the map base, in meters.  This can also be changed in-game using the page-up and page-down keys while holding down control."
 "Options.OPTION:ResetPosition"	"Återställ överlagringsstorlek"
 "Options.OPTION:OverlayRotation"	"Overlay rotation"
 "Options.OPTION_DESCRIPTION:OverlayRotation"	"The rotation (in degrees) of the overlay image projection."

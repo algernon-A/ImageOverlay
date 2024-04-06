@@ -11,6 +11,8 @@
 "Options.OPTION_DESCRIPTION:OverlayPosX"	"Die X (Ost - West) Koordinate, in der Mitte des Overlay's, in Metern. Diese kann auch mit der linken und rechten Pfeiltaste geändert werden, während die Steuerung-Taste (für 1 m) oder Shift-Taste (für 10 m) gedrückt wird."
 "Options.OPTION:OverlayPosZ"	"Overlay Z-position"
 "Options.OPTION_DESCRIPTION:OverlayPosZ"	"Die Z (Nord - Süd) Koordinate, in der Mitte des Overlay's, in Metern. Diese kann auch mit der oberen und unteren Pfeiltaste geändert werden, während die Steuerung-Taste (für 1 m) oder Shift-Taste (für 10 m) gedrückt wird."
+"Options.OPTION:OverlayPosY"	"Overlay elevation"
+"Options.OPTION_DESCRIPTION:OverlayPosY"	"The elevation of the overlay image projection above the map base, in meters.  This can also be changed in-game using the page-up and page-down keys while holding down control."
 "Options.OPTION:ResetPosition"	"Overlay Position zurücksetzen"
 "Options.OPTION:OverlayRotation"	"Overlay rotation"
 "Options.OPTION_DESCRIPTION:OverlayRotation"	"The rotation (in degrees) of the overlay image projection."

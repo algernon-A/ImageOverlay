@@ -11,6 +11,8 @@
 "Options.OPTION_DESCRIPTION:OverlayPosX"	"La coordenada X (este-oeste) del centro de la proyección de imagen superpuesta, en metros. Esto también se puede cambiar en el juego usando las teclas flecha izquierda y derecha mientras se mantiene presionado el control (para incrementos de 1m) o shift (para incrementos de 10m)."
 "Options.OPTION:OverlayPosZ"	"Posición Z de la superposición"
 "Options.OPTION_DESCRIPTION:OverlayPosZ"	"Coordenada Z (norte-sur) del centro de la proyección de imagen superpuesta, en metros. Esto también se puede cambiar en el juego usando las teclas de flecha arriba y abajo mientras se mantiene presionado el control (para incrementos de 1m) o shift (para incrementos de 10m)."
+"Options.OPTION:OverlayPosY"	"Elevación de la superposición"
+"Options.OPTION_DESCRIPTION:OverlayPosY"	"La elevación de la superposición de la imagen sobre el mapa base, en metros. Esto también se puede ajustar en el juego usando las teclas de Avanzar Página y Retroceder Página mientras se mantiene presionado la tecla Control."
 "Options.OPTION:ResetPosition"	"Restablecer posición de la superposición"
 "Options.OPTION:OverlayRotation"	"Rotación de la superposición"
 "Options.OPTION_DESCRIPTION:OverlayRotation"	"La rotación (en grados) de la proyección de la imagen superpuesta."

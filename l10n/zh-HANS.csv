@@ -11,6 +11,8 @@
 "Options.OPTION_DESCRIPTION:OverlayPosX"	"覆盖图像的 x 轴（东西方向）坐标，单位：米。在游戏内，先按住 Ctrl 键（每次移动1米）或者 Shift 键（每次移动10米），然后按左右键就可以移动图像了。"
 "Options.OPTION:OverlayPosZ"	"图像的 z 轴位置"
 "Options.OPTION_DESCRIPTION:OverlayPosZ"	"覆盖图像的 z 轴（南北方向）坐标，单位：米。在游戏内，先按住 Ctrl 键（每次移动1米）或者 Shift 键（每次移动10米），然后按上下键就可以移动图像了。"
+"Options.OPTION:OverlayPosY"	"覆盖图像的高度"
+"Options.OPTION_DESCRIPTION:OverlayPosY"	"地表上方覆盖图像的高度（单位：米）。若要在游戏中调整它的高度，需要先按住 Ctrl 键，然后再按 PgUp 键抬高/ PgDn 键降低。"
 "Options.OPTION:ResetPosition"	"重置覆盖图像的位置"
 "Options.OPTION:OverlayRotation"	"覆盖图像的旋转角度"
 "Options.OPTION_DESCRIPTION:OverlayRotation"	"调整覆盖图像旋转的角度。"

@@ -11,6 +11,8 @@
 "Options.OPTION_DESCRIPTION:OverlayPosX"	"X(東西) 軸でオーバーレイ座標をずらします。メートル単位。これはゲーム内でControlキー(1m単位) かShift(10m単位) を押しながら左右矢印キーを押すことでも変更できます。"
 "Options.OPTION:OverlayPosZ"	"オーバーレイのZ位置"
 "Options.OPTION_DESCRIPTION:OverlayPosZ"	"X(南北) 軸でオーバーレイ座標をずらします。メートル単位。これはゲーム内でControlキー(1m単位) かShift(10m単位) を押しながら上下矢印キーを押すことでも変更できます。"
+"Options.OPTION:OverlayPosY"	"Overlay elevation"
+"Options.OPTION_DESCRIPTION:OverlayPosY"	"The elevation of the overlay image projection above the map base, in meters.  This can also be changed in-game using the page-up and page-down keys while holding down control."
 "Options.OPTION:ResetPosition"	"オーバーレイ位置をリセット"
 "Options.OPTION:OverlayRotation"	"Overlay rotation"
 "Options.OPTION_DESCRIPTION:OverlayRotation"	"The rotation (in degrees) of the overlay image projection."

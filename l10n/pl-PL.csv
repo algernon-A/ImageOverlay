@@ -11,6 +11,8 @@
 "Options.OPTION_DESCRIPTION:OverlayPosX"	"Współrzędna X (wschód-zachód) środka nakładanego obrazu w metrach. Można to również zmienić w grze przy pomocy klawiszy strzałek prawo i lewo, przytrzymując klawisz Ctrl (dla zmiany o 1 m) lub klawisza Shift (dla zmiany o 10 m)."
 "Options.OPTION:OverlayPosZ"	"Pozycja Z obrazu do nałożenia"
 "Options.OPTION_DESCRIPTION:OverlayPosZ"	"Współrzędna Z (północ-południe) środka nakładanego obrazu w metrach. Można to również zmienić w grze przy pomocy klawiszy strzałek góra i dół, przytrzymując klawisz Ctrl (dla zmiany o 1 m) lub klawisza Shift (dla zmiany o 10 m)."
+"Options.OPTION:OverlayPosY"	"Wysokość obrazu"
+"Options.OPTION_DESCRIPTION:OverlayPosY"	"Wysokość nakładanego obrazu nad mapą, w metrach. Można to również zmienić w grze przy pomocy klawiszy page-up i page-down, przytrzymując przy kliknięciu klawisz Ctrl."
 "Options.OPTION:ResetPosition"	"Zresetuj pozycje obrazu"
 "Options.OPTION:OverlayRotation"	"Obrót obrazu"
 "Options.OPTION_DESCRIPTION:OverlayRotation"	"Obrót (w stopniach) projekcji obrazu do nałożenia."

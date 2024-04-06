@@ -11,6 +11,8 @@
 "Options.OPTION_DESCRIPTION:OverlayPosX"	"Coordonata X (est-vest) a centrului proiecției imaginii suprapuse, în metri. Aceasta poate fi modificată și în timpul jocului folosind tastele săgeată stânga și dreapta, în timp ce poate ține apăsată tasta Control (pentru pas de 1m) sau tasta Shift (pentru pas de 10m)."
 "Options.OPTION:OverlayPosZ"	"Poziția suprapunerii pe axa Z"
 "Options.OPTION_DESCRIPTION:OverlayPosZ"	"Coordonata Z (nord-sud) a centrului proiecției imaginii suprapuse, în metri. Aceasta poate fi modificată și în timpul jocului folosind tastele săgeată sus și jos, în timp ce poate ține apăsată tasta Control (pentru pas de 1m) sau tasta Shift (pentru pas de 10m)."
+"Options.OPTION:OverlayPosY"	"Overlay elevation"
+"Options.OPTION_DESCRIPTION:OverlayPosY"	"The elevation of the overlay image projection above the map base, in meters.  This can also be changed in-game using the page-up and page-down keys while holding down control."
 "Options.OPTION:ResetPosition"	"Resetează poziția suprapunerii"
 "Options.OPTION:OverlayRotation"	"Rotația suprapunerii"
 "Options.OPTION_DESCRIPTION:OverlayRotation"	"Rotația (în grade) a proiecției imaginii suprapuse."
