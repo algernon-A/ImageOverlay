@@ -1,3 +1,4 @@
+### 1.0.5 
 - Add elevation slider to options panel.
 
 ### 1.0.4
