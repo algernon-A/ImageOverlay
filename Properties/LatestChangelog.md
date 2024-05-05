@@ -1,1 +1,1 @@
-- Add elevation slider to options panel.
+- Update translations.
