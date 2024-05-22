@@ -50,6 +50,22 @@ namespace ImageOverlay
         }
 
         /// <summary>
+        /// Sets whether the overlay will be displayed through terrain.
+        /// </summary>
+        /// <param name="showThroughTerrain"><c>true</c> to have the image still appear through terrain, <c>false</c> to respect terrain opacity.</param>
+        internal void ShowThroughTerrain(bool showThroughTerrain)
+        {
+            if (_overlayObject?.GetComponent<Renderer>()?.material is Material overlayMaterial)
+            {
+                overlayMaterial.SetFloat("_ZTest", showThroughTerrain ? 8f : 4f);
+            }
+            else
+            {
+                _log.Error("Unable to get overlay material shader to set ZTest.");
+            }
+        }
+
+        /// <summary>
         /// Sets the overlay's alpha value.
         /// </summary>
         /// <param name="alpha">Alpha value to set (0f - 1f).</param>
@@ -329,6 +345,9 @@ namespace ImageOverlay
             // Load image texture.
             try
             {
+                // Get active settings reference.
+                ModSettings activeSettings = Mod.Instance.ActiveSettings;
+
                 // Load texture.
                 UpdateOverlayTexture();
 
@@ -336,21 +355,24 @@ namespace ImageOverlay
                 _overlayObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
 
                 // Apply scale.
-                SetSize(Mod.Instance.ActiveSettings.OverlaySize);
+                SetSize(activeSettings.OverlaySize);
 
                 // Set overlay elevation.
                 ResetElevation();
                 TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
                 WaterSurfaceData waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
                 _log.Info($"terrain height is {WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero)}");
-                _overlayObject.transform.position = new Vector3(Mod.Instance.ActiveSettings.OverlayPosX, Mod.Instance.ActiveSettings.OverlayPosY, Mod.Instance.ActiveSettings.OverlayPosZ);
+                _overlayObject.transform.position = new Vector3(activeSettings.OverlayPosX, activeSettings.OverlayPosY, activeSettings.OverlayPosZ);
 
                 // Apply rotation.
                 UpdateRotation();
 
                 // Attach material to GameObject.
                 _overlayObject.GetComponent<Renderer>().material = _overlayMaterial;
-                SetAlpha(Mod.Instance.ActiveSettings.Alpha);
+                SetAlpha(activeSettings.Alpha);
+
+                // Set terrain projection.
+                ShowThroughTerrain(activeSettings.ShowThroughTerrain);
             }
             catch (Exception e)
             {
@@ -370,7 +392,7 @@ namespace ImageOverlay
                 using StreamReader reader = new (Assembly.GetExecutingAssembly().GetManifestResourceStream("ImageOverlay.Shader.shaderbundle"));
                 {
                     // Extract shader from file.
-                    _overlayShader = AssetBundle.LoadFromStream(reader.BaseStream)?.LoadAsset<Shader>("UnlitTransparentAdditive.shader");
+                    _overlayShader = AssetBundle.LoadFromStream(reader.BaseStream)?.LoadAsset<Shader>("Assets/UnlitTransparentAdditive.shader");
                     if (_overlayShader is not null)
                     {
                         // Shader loaded - all good!

@@ -6,13 +6,12 @@
 		<Authors>algernon</Authors>
 		<Copyright>Copyright © 2023-24 algernon (github.com/algernon-A). All rights reserved.</Copyright>
 		<Product>$(Title)</Product>
-		<Version>1.0.6</Version>
+		<Version>1.0.99</Version>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<TargetFramework>net472</TargetFramework>
 		<LangVersion>9.0</LangVersion>
 		<Configurations>Debug;Release</Configurations>
-		<PDXAccountDataPath>$(USERPROFILE)\Documents\pdx_account.txt</PDXAccountDataPath>
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
 	</PropertyGroup>
 
@@ -44,6 +43,7 @@
 		<EmbeddedResource Include="l10n\de-DE.csv" />
 		<EmbeddedResource Include="l10n\en-US.csv" />
 		<EmbeddedResource Include="l10n\es-ES.csv" />
+		<EmbeddedResource Include="l10n\fr-FR.csv" />
 		<EmbeddedResource Include="l10n\it-IT.csv" />
 		<EmbeddedResource Include="l10n\ja-JP.csv" />
 		<EmbeddedResource Include="l10n\nl-NL.csv" />

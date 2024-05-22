@@ -9,6 +9,8 @@
 "Options.OPTION_DESCRIPTION:SelectedOverlay"	"Select an overlay file to use."
 "Options.OPTION:RefreshFileList"	"Refresh file list"
 "Options.OPTION_DESCRIPTION:RefreshFileList"	"Refreshes the list of available overlay files from the 'Overlays' directory in the Cities: Skylines II user settings directory."
+"Options.OPTION:ShowThroughTerrain"	"Show overlay through terrain"
+"Options.OPTION_DESCRIPTION:ShowThroughTerrain"	"When this is enabled the overlay image will be visible even when underneath the terrain."
 "Options.OPTION:OverlaySize"	"Overlay size"
 "Options.OPTION_DESCRIPTION:OverlaySize"	"The size of the overlay image projection, in meters.  This can also be changed in-game using the minus and equals keys."
 "Options.OPTION:ResetToVanilla"	"Reset overlay size"

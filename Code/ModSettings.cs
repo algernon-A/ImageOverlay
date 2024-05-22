@@ -35,6 +35,7 @@ namespace ImageOverlay
         private int _fileListVersion = 0;
 
         // Overlay attributes.
+        private bool _showThroughTerrain = true;
         private float _overlaySize = VanillaMapSize;
         private float _overlayPosX = 0f;
         private float _overlayPosZ = 0f;
@@ -101,6 +102,24 @@ namespace ImageOverlay
             set
             {
                 UpdateFileList();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the overlay should be confined to a flat plane.
+        /// </summary>
+        [SettingsUISection("FileSelection")]
+        public bool ShowThroughTerrain
+        {
+            get => _showThroughTerrain;
+
+            set
+            {
+                if (_showThroughTerrain != value)
+                {
+                    _showThroughTerrain = value;
+                    ImageOverlaySystem.Instance?.ShowThroughTerrain(value);
+                }
             }
         }
 

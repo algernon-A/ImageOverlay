@@ -1,1 +1,1 @@
-- Update translations.
+- Add option to show overlay through terrain.

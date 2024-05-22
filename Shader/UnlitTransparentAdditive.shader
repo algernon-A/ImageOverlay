@@ -8,6 +8,9 @@ Shader "Unlit/Transparent Colored Additive"
 	{
 		_MainTex ("Base (RGB), Alpha (A)", 2D) = "black" {}
         _Color ("Color (RGBA)", Color) = (1, 1, 1, 1)
+
+		// ZTest property; 4 is 'LEqual' (default), 8 sets to 'Always' (enum is Unity CompareFunction).  
+		[Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("ZTest", Float) = 4.0
 	}
 	
 	SubShader
@@ -17,7 +20,6 @@ Shader "Unlit/Transparent Colored Additive"
 		Tags
 		{
 			"Queue" = "Transparent"
-			"IgnoreProjector" = "True"
 			"RenderType" = "Transparent"
 		}
 		
@@ -25,6 +27,7 @@ Shader "Unlit/Transparent Colored Additive"
 		{
 			Cull Off
 			Lighting Off
+			ZTest [_ZTest]
 			ZWrite Off
 			Fog { Mode Off }
 			Offset -1, -1
