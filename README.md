@@ -22,7 +22,8 @@ Requested by AmiPolizeiFunk to assist with map creation and real-life city recre
 ### Displaying the overlay
 - Press **Control-O** to activate the overlay. Press **Control-O** again to hide it.  There may be a slight pause in the game on the first activation as the image file is loaded.
 - The overlay will be automatically scaled to the vanilla playable area size (14 336m per side) and will be centred around middle of the map.
-
+- The overlay is projected onto a flat and level plane at the elevation you set.  By default the overlay will still be visible if the plane is underneath the terrain, but this can be disabled in the options panel if you want to only show the overlay where it is above the terrain.
+ 
 ### Repositioning the overlay
 - Press **Control-PageUp** and **Control-PageDown** to raise or lower the level of the overlay.
 - To rotate the overlay, press **Control-.** (period) or **Control-,** (comma) to rotate 1 degree at a time, or press **Control-Shift** to rotate 90 degrees at a time.

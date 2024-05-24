@@ -1,3 +1,4 @@
+### 1.1 
 - Add option to show overlay through terrain.
 
 ### 1.0.6
