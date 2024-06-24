@@ -1,3 +1,6 @@
+### 1.2
+- Add configurable keybindings.
+
 ### 1.1 
 - Add option to show overlay through terrain.
 

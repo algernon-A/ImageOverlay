@@ -13,15 +13,20 @@ namespace ImageOverlay
     using Colossal.Logging;
     using Colossal.Serialization.Entities;
     using Game;
+    using Game.Input;
     using Game.Simulation;
     using Unity.Mathematics;
     using UnityEngine;
+    using static ActionNames;
 
     /// <summary>
     /// The historical start mod system.
     /// </summary>
     internal sealed partial class ImageOverlaySystem : GameSystemBase
     {
+        // Input actions.
+        private readonly List<KeyValuePair<ProxyAction, Action>> _actions = new ();
+
         // References.
         private ILog _log;
 
@@ -182,35 +187,31 @@ namespace ImageOverlay
                 return;
             }
 
-            // Set up hotkeys.
-            InputBindingsManager.Ensure();
-            List<string> shiftKey = new () { "<Keyboard>/shift" };
-            List<string> controlKey = new () { "<Keyboard>/ctrl" };
-            List<string> controlShift = new () { "<Keyboard>/shift", "<Keyboard>/ctrl" };
+            // Get input actions from settings.
+            ModSettings activeSettings = Mod.Instance.ActiveSettings;
 
-            InputBindingsManager.Instance.AddAction("ImageOverlayToggle", "<Keyboard>/o", controlKey, ToggleOverlay);
-            InputBindingsManager.Instance.AddAction("ImageOverlayUp", "<Keyboard>/pageup", controlKey, () => ChangeHeight(5f));
-            InputBindingsManager.Instance.AddAction("ImageOverlayDown", "<Keyboard>/pagedown", controlKey, () => ChangeHeight(-5f));
-
-            InputBindingsManager.Instance.AddAction("ImageOverlayNorth", "<Keyboard>/uparrow", controlKey, () => Mod.Instance.ActiveSettings.OverlayPosZ += 1f);
-            InputBindingsManager.Instance.AddAction("ImageOverlaySouth", "<Keyboard>/downarrow", controlKey, () => Mod.Instance.ActiveSettings.OverlayPosZ -= 1f);
-            InputBindingsManager.Instance.AddAction("ImageOverlayEast", "<Keyboard>/rightarrow", controlKey, () => Mod.Instance.ActiveSettings.OverlayPosX += 1f);
-            InputBindingsManager.Instance.AddAction("ImageOverlayWest", "<Keyboard>/leftarrow", controlKey, () => Mod.Instance.ActiveSettings.OverlayPosX -= 1f);
-
-            InputBindingsManager.Instance.AddAction("ImageOverlayNorthLarge", "<Keyboard>/uparrow", shiftKey, () => Mod.Instance.ActiveSettings.OverlayPosZ += 10f);
-            InputBindingsManager.Instance.AddAction("ImageOverlaySouthLarge", "<Keyboard>/downarrow", shiftKey, () => Mod.Instance.ActiveSettings.OverlayPosZ -= 10f);
-            InputBindingsManager.Instance.AddAction("ImageOverlayEastLarge", "<Keyboard>/rightarrow", shiftKey, () => Mod.Instance.ActiveSettings.OverlayPosX += 10f);
-            InputBindingsManager.Instance.AddAction("ImageOverlayWestLarge", "<Keyboard>/leftarrow", shiftKey, () => Mod.Instance.ActiveSettings.OverlayPosX -= 10f);
-
-            InputBindingsManager.Instance.AddAction("ImageOverlayRotateRight", "<Keyboard>/period", controlKey, () => Rotate(1f));
-            InputBindingsManager.Instance.AddAction("ImageOverlayRotateLeft", "<Keyboard>/comma", controlKey, () => Rotate(-1f));
-
-            // These are additional to the single degree.
-            InputBindingsManager.Instance.AddAction("ImageOverlayRotateRight90", "<Keyboard>/period", controlShift, () => Rotate(89f));
-            InputBindingsManager.Instance.AddAction("ImageOverlayRotateLeft90", "<Keyboard>/comma", controlShift, () => Rotate(-89f));
-
-            InputBindingsManager.Instance.AddAction("ImageOverlaySizeUp", "<Keyboard>/equals", controlKey, () => Mod.Instance.ActiveSettings.OverlaySize += 10f);
-            InputBindingsManager.Instance.AddAction("ImageOverlaySizeDown", "<Keyboard>/minus", controlKey, () => Mod.Instance.ActiveSettings.OverlaySize -= 10f);
+            // Assign input actions.
+            _actions.Add(new (activeSettings.GetAction(ToggleAction), ToggleOverlay));
+            _actions.Add(new (activeSettings.GetAction(MoveUpAction), () => { activeSettings.OverlayPosY += 1f; }));
+            _actions.Add(new (activeSettings.GetAction(MoveDownAction), () => { activeSettings.OverlayPosY -= 1f; }));
+            _actions.Add(new (activeSettings.GetAction(MoveUpLargeAction), () => { activeSettings.OverlayPosY += 10f; }));
+            _actions.Add(new (activeSettings.GetAction(MoveDownLargeAction), () => { activeSettings.OverlayPosY -= 10f; }));
+            _actions.Add(new (activeSettings.GetAction(MoveNorthAction), () => { activeSettings.OverlayPosZ += 1f; }));
+            _actions.Add(new (activeSettings.GetAction(MoveSouthAction), () => { activeSettings.OverlayPosZ -= 1f; }));
+            _actions.Add(new (activeSettings.GetAction(MoveEastAction), () => { activeSettings.OverlayPosX += 1f; }));
+            _actions.Add(new (activeSettings.GetAction(MoveWestAction), () => { activeSettings.OverlayPosX -= 1f; }));
+            _actions.Add(new (activeSettings.GetAction(MoveNorthLargeAction), () => { activeSettings.OverlayPosZ += 10f; }));
+            _actions.Add(new (activeSettings.GetAction(MoveSouthLargeAction), () => { activeSettings.OverlayPosZ -= 10f; }));
+            _actions.Add(new (activeSettings.GetAction(MoveEastLargeAction), () => { activeSettings.OverlayPosX += 10f; }));
+            _actions.Add(new (activeSettings.GetAction(MoveWestLargeAction), () => { activeSettings.OverlayPosX -= 10f; }));
+            _actions.Add(new (activeSettings.GetAction(RotateLeftAction), () => { activeSettings.OverlayRotation -= 1f; }));
+            _actions.Add(new (activeSettings.GetAction(RotateRightAction), () => { activeSettings.OverlayRotation += 1f; }));
+            _actions.Add(new (activeSettings.GetAction(RotateLeftLargeAction), () => { activeSettings.OverlayRotation -= 90f; }));
+            _actions.Add(new (activeSettings.GetAction(RotateRightLargeAction), () => { activeSettings.OverlayRotation += 90f; }));
+            _actions.Add(new (activeSettings.GetAction(IncreaseSizeAction), () => { activeSettings.OverlaySize += 10f; }));
+            _actions.Add(new (activeSettings.GetAction(DecreaseSizeAction), () => { activeSettings.OverlaySize -= 10f; }));
+            _actions.Add(new (activeSettings.GetAction(IncreaseSizeLargeAction), () => { activeSettings.OverlaySize += 100f; }));
+            _actions.Add(new (activeSettings.GetAction(DecreaseSizeLargeAction), () => { activeSettings.OverlaySize -= 100f; }));
 
             _log.Info("Finished OnCreate");
         }
@@ -225,11 +226,17 @@ namespace ImageOverlay
             base.OnGameLoadingComplete(purpose, mode);
             if ((mode & GameMode.GameOrEditor) != GameMode.None)
             {
-                InputBindingsManager.Instance.EnableActions();
+                foreach (KeyValuePair<ProxyAction, Action> entry in _actions)
+                {
+                    entry.Key.shouldBeEnabled = true;
+                }
             }
             else
             {
-                InputBindingsManager.Instance.DisableActions();
+                foreach (KeyValuePair<ProxyAction, Action> entry in _actions)
+                {
+                    entry.Key.shouldBeEnabled = false;
+                }
             }
         }
 
@@ -238,6 +245,16 @@ namespace ImageOverlay
         /// </summary>
         protected override void OnUpdate()
         {
+            ModSettings activeSettings = Mod.Instance.ActiveSettings;
+
+            foreach (KeyValuePair<ProxyAction, Action> entry in _actions)
+            {
+                if (entry.Key.WasPerformedThisFrame())
+                {
+                    _log.Info($"Performing action {entry.Key.name}");
+                    entry.Value();
+                }
+            }
         }
 
         /// <summary>
@@ -288,18 +305,6 @@ namespace ImageOverlay
         }
 
         /// <summary>
-        /// Changes the overlay height by the given adjustment.
-        /// </summary>
-        /// <param name="adjustment">Height adjustment.</param>
-        private void ChangeHeight(float adjustment) => Mod.Instance.ActiveSettings.OverlayPosY += adjustment;
-
-        /// <summary>
-        /// Rotates the overlay around the centre (y-axis) by the given amount in degrees.
-        /// </summary>
-        /// <param name="rotation">Rotation in degrees.</param>
-        private void Rotate(float rotation) => Mod.Instance.ActiveSettings.OverlayRotation += rotation;
-
-        /// <summary>
         /// Updates the overlay texture.
         /// </summary>
         private void UpdateOverlayTexture()
@@ -345,9 +350,6 @@ namespace ImageOverlay
             // Load image texture.
             try
             {
-                // Get active settings reference.
-                ModSettings activeSettings = Mod.Instance.ActiveSettings;
-
                 // Load texture.
                 UpdateOverlayTexture();
 
@@ -355,24 +357,21 @@ namespace ImageOverlay
                 _overlayObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
 
                 // Apply scale.
-                SetSize(activeSettings.OverlaySize);
+                SetSize(Mod.Instance.ActiveSettings.OverlaySize);
 
                 // Set overlay elevation.
                 ResetElevation();
                 TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
                 WaterSurfaceData waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
                 _log.Info($"terrain height is {WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero)}");
-                _overlayObject.transform.position = new Vector3(activeSettings.OverlayPosX, activeSettings.OverlayPosY, activeSettings.OverlayPosZ);
+                _overlayObject.transform.position = new Vector3(Mod.Instance.ActiveSettings.OverlayPosX, Mod.Instance.ActiveSettings.OverlayPosY, Mod.Instance.ActiveSettings.OverlayPosZ);
 
                 // Apply rotation.
                 UpdateRotation();
 
                 // Attach material to GameObject.
                 _overlayObject.GetComponent<Renderer>().material = _overlayMaterial;
-                SetAlpha(activeSettings.Alpha);
-
-                // Set terrain projection.
-                ShowThroughTerrain(activeSettings.ShowThroughTerrain);
+                SetAlpha(Mod.Instance.ActiveSettings.Alpha);
             }
             catch (Exception e)
             {

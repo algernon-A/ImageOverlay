@@ -10,18 +10,37 @@ namespace ImageOverlay
     using System.Linq;
     using Colossal.IO.AssetDatabase;
     using Colossal.Logging;
+    using Game.Input;
     using Game.Modding;
     using Game.Settings;
     using Game.UI;
     using Game.UI.Widgets;
     using UnityEngine;
+    using UnityEngine.InputSystem;
+    using static ActionNames;
 
     /// <summary>
     /// The mod's settings.
     /// </summary>
     [FileLocation(Mod.ModName)]
+    [SettingsUISection(OverlayTab, KeysTab)]
+    [SettingsUITabOrder(OverlayTab, KeysTab)]
+    [SettingsUIGroupOrder(FileSelectionSection, AlphaSection, ToggleSection, ElevationSection, PositionSection, RotationSection, SizeSection)]
+    [SettingsUIShowGroupName(ElevationSection, PositionSection, RotationSection, SizeSection)]
     public class ModSettings : ModSetting
     {
+        // Layout constants.
+        private const string OverlayTab = "Overlay";
+        private const string KeysTab = "Keys";
+        private const string FileSelectionSection = "FileSelection";
+        private const string AlphaSection = "FileSelection";
+        private const string ToggleSection = "Toggle";
+        private const string ElevationSection = "OverlayElevation";
+        private const string PositionSection = "OverlayPosition";
+        private const string RotationSection = "OverlayRotation";
+        private const string SizeSection = "OverlaySize";
+
+        // Control constants.
         private const string NoOverlayText = "None";
         private const float VanillaMapSize = 14336f;
 
@@ -60,7 +79,7 @@ namespace ImageOverlay
         /// </summary>
         [SettingsUIDropdown(typeof(ModSettings), nameof(GenerateFileSelectionItems))]
         [SettingsUIValueVersion(typeof(ModSettings), nameof(GetListVersion))]
-        [SettingsUISection("FileSelection")]
+        [SettingsUISection(OverlayTab, FileSelectionSection)]
         public string SelectedOverlay
         {
             get
@@ -96,7 +115,7 @@ namespace ImageOverlay
         /// Sets a value indicating whether the list of overlay files should be refreshed.
         /// </summary>
         [SettingsUIButton]
-        [SettingsUISection("FileSelection")]
+        [SettingsUISection(OverlayTab, FileSelectionSection)]
         public bool RefreshFileList
         {
             set
@@ -108,7 +127,7 @@ namespace ImageOverlay
         /// <summary>
         /// Gets or sets a value indicating whether the overlay should be confined to a flat plane.
         /// </summary>
-        [SettingsUISection("FileSelection")]
+        [SettingsUISection(OverlayTab, AlphaSection)]
         public bool ShowThroughTerrain
         {
             get => _showThroughTerrain;
@@ -124,10 +143,28 @@ namespace ImageOverlay
         }
 
         /// <summary>
+        /// Gets or sets the overlay alpha.
+        /// </summary>
+        [SettingsUISlider(min = 0f, max = 95f, step = 5f, scalarMultiplier = 100f, unit = Unit.kPercentage)]
+        [SettingsUISection(OverlayTab, AlphaSection)]
+        public float Alpha
+        {
+            get => _alpha;
+            set
+            {
+                if (_alpha != value)
+                {
+                    _alpha = value;
+                    ImageOverlaySystem.Instance?.SetAlpha(value);
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the overlay size.
         /// </summary>
         [SettingsUISlider(min = 100f, max = VanillaMapSize * 4f, step = 1f, scalarMultiplier = 1f)]
-        [SettingsUISection("OverlaySize")]
+        [SettingsUISection(OverlayTab, SizeSection)]
         public float OverlaySize
         {
             get => _overlaySize;
@@ -145,7 +182,7 @@ namespace ImageOverlay
         /// Sets a value indicating whether the overlay size should be reset to default.
         /// </summary>
         [SettingsUIButton]
-        [SettingsUISection("OverlaySize")]
+        [SettingsUISection(OverlayTab, SizeSection)]
         public bool ResetToVanilla
         {
             set => OverlaySize = VanillaMapSize;
@@ -155,7 +192,7 @@ namespace ImageOverlay
         /// Gets or sets the overlay Y-position (actually Z in Unity-speak, but let's not confuse the users too much).
         /// </summary>
         [SettingsUISlider(min = -VanillaMapSize / 2f, max = VanillaMapSize / 2f, step = 1f, scalarMultiplier = 1f)]
-        [SettingsUISection("OverlayPosition")]
+        [SettingsUISection(OverlayTab, PositionSection)]
         public float OverlayPosX
         {
             get => _overlayPosX;
@@ -173,7 +210,7 @@ namespace ImageOverlay
         /// Gets or sets the overlay Z-position.
         /// </summary>
         [SettingsUISlider(min = -VanillaMapSize / 2f, max = VanillaMapSize / 2f, step = 1f, scalarMultiplier = 1f)]
-        [SettingsUISection("OverlayPosition")]
+        [SettingsUISection(OverlayTab, PositionSection)]
         public float OverlayPosZ
         {
             get => _overlayPosZ;
@@ -191,7 +228,7 @@ namespace ImageOverlay
         /// Gets or sets the overlay's elevation.
         /// </summary>
         [SettingsUISlider(min = -1000, max = 4000, step = 1f, scalarMultiplier = 1f)]
-        [SettingsUISection("OverlayPosition")]
+        [SettingsUISection(OverlayTab, PositionSection)]
         public float OverlayPosY
         {
             get => _overlayElevation;
@@ -209,7 +246,7 @@ namespace ImageOverlay
         /// Sets a value indicating whether the overlay position should be reset to default.
         /// </summary>
         [SettingsUIButton]
-        [SettingsUISection("OverlayPosition")]
+        [SettingsUISection(OverlayTab, PositionSection)]
         public bool ResetPosition
         {
             set
@@ -233,7 +270,7 @@ namespace ImageOverlay
         /// Gets or sets the overlay rotation.
         /// </summary>
         [SettingsUISlider(min = -180f, max = 180f, step = 1f, scalarMultiplier = 1f)]
-        [SettingsUISection("OverlayRotation")]
+        [SettingsUISection(OverlayTab, RotationSection)]
         public float OverlayRotation
         {
             get => _overlayRotation;
@@ -264,7 +301,7 @@ namespace ImageOverlay
         /// Sets a value indicating whether the overlay rotation should be reset to default.
         /// </summary>
         [SettingsUIButton]
-        [SettingsUISection("OverlayRotation")]
+        [SettingsUISection(OverlayTab, RotationSection)]
         public bool ResetRotation
         {
             set
@@ -274,22 +311,151 @@ namespace ImageOverlay
         }
 
         /// <summary>
-        /// Gets or sets the overlay alpha.
+        /// Gets or sets the 'show overlay' hotkey.
         /// </summary>
-        [SettingsUISlider(min = 0f, max = 95f, step = 5f, scalarMultiplier = 100f, unit = Unit.kPercentage)]
-        [SettingsUISection("Alpha")]
-        public float Alpha
-        {
-            get => _alpha;
-            set
-            {
-                if (_alpha != value)
-                {
-                    _alpha = value;
-                    ImageOverlaySystem.Instance?.SetAlpha(value);
-                }
-            }
-        }
+        [SettingsUIKeyboardBinding(Key.O, ToggleAction, ctrl: true)]
+        [SettingsUISection(KeysTab, ToggleSection)]
+        public ProxyBinding ToggleBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'move north' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.PageUp, MoveUpAction, ctrl: true)]
+        [SettingsUISection(KeysTab, ElevationSection)]
+        public ProxyBinding MoveUpBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'move south' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.PageDown, MoveDownAction, ctrl: true)]
+        [SettingsUISection(KeysTab, ElevationSection)]
+        public ProxyBinding MoveDownBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'move north large' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.PageUp, MoveUpLargeAction, ctrl: true, shift: true)]
+        [SettingsUISection(KeysTab, ElevationSection)]
+        public ProxyBinding MoveUpLargeBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'move south large' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.PageDown, MoveDownLargeAction, ctrl: true, shift: true)]
+        [SettingsUISection(KeysTab, ElevationSection)]
+        public ProxyBinding MoveDownLargeBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'move north' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.UpArrow, MoveNorthAction, ctrl: true)]
+        [SettingsUISection(KeysTab, PositionSection)]
+        public ProxyBinding MoveNorthBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'move south' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.DownArrow, MoveSouthAction, ctrl: true)]
+        [SettingsUISection(KeysTab, PositionSection)]
+        public ProxyBinding MoveSouthBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'move east' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.RightArrow, MoveEastAction, ctrl: true)]
+        [SettingsUISection(KeysTab, PositionSection)]
+        public ProxyBinding MoveEastBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'move west' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.LeftArrow, MoveWestAction, ctrl: true)]
+        [SettingsUISection(KeysTab, PositionSection)]
+        public ProxyBinding MoveWestBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'move north large' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.UpArrow, MoveNorthLargeAction, ctrl: true, shift: true)]
+        [SettingsUISection(KeysTab, PositionSection)]
+        public ProxyBinding MoveNorthLargeBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'move south large' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.DownArrow, MoveSouthLargeAction, ctrl: true, shift: true)]
+        [SettingsUISection(KeysTab, PositionSection)]
+        public ProxyBinding MoveSouthLargeBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'move east large' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.RightArrow, MoveEastLargeAction, ctrl: true, shift: true)]
+        [SettingsUISection(KeysTab, PositionSection)]
+        public ProxyBinding MoveEastLargeBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'move east large' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.LeftArrow, MoveWestLargeAction, ctrl: true, shift: true)]
+        [SettingsUISection(KeysTab, PositionSection)]
+        public ProxyBinding MoveWestLargeBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'rotate left' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.Comma, RotateLeftAction, ctrl: true)]
+        [SettingsUISection(KeysTab, RotationSection)]
+        public ProxyBinding RotateLeftBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'rotate right' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.Period, RotateRightAction, ctrl: true)]
+        [SettingsUISection(KeysTab, RotationSection)]
+        public ProxyBinding RotateRightBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'rotate left large' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.Comma, RotateLeftLargeAction, ctrl: true, shift: true)]
+        [SettingsUISection(KeysTab, RotationSection)]
+        public ProxyBinding RotateLeftLargeBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'rotate right large' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.Period, RotateRightLargeAction, ctrl: true, shift: true)]
+        [SettingsUISection(KeysTab, RotationSection)]
+        public ProxyBinding RotateRightLargeBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'increase size' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.Equals, IncreaseSizeAction, ctrl: true)]
+        [SettingsUISection(KeysTab, SizeSection)]
+        public ProxyBinding IncreaseSizeBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'decrease size' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.Minus, DecreaseSizeAction, ctrl: true)]
+        [SettingsUISection(KeysTab, SizeSection)]
+        public ProxyBinding DecreaseSizeBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'increase size large' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.Equals, IncreaseSizeLargeAction, ctrl: true, shift: true)]
+        [SettingsUISection(KeysTab, SizeSection)]
+        public ProxyBinding IncreaseSizeLargeBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'decrease size large' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(Key.Minus, DecreaseSizeLargeAction, ctrl: true, shift: true)]
+        [SettingsUISection(KeysTab, SizeSection)]
+        public ProxyBinding DecreaseSizeLargeBinding { get; set; }
 
         /// <summary>
         /// Generates the overlay file selection dropdown menu item list.

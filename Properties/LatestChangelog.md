@@ -1,1 +1,1 @@
-- Add option to show overlay through terrain.
+- Add configurable keybindings.

@@ -96,6 +96,9 @@ namespace ImageOverlay
             // Load saved settings.
             AssetDatabase.global.LoadSettings("ImageOverlaySettings", ActiveSettings, new ModSettings(this));
 
+            // Apply input bindings.
+            ActiveSettings.RegisterKeyBindings();
+
             // Enable system.
             updateSystem.UpdateAt<ImageOverlaySystem>(SystemUpdatePhase.ToolUpdate);
         }
