@@ -313,147 +313,147 @@ namespace ImageOverlay
         /// <summary>
         /// Gets or sets the 'show overlay' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.O, ToggleAction, ctrl: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.O, ToggleAction, ctrl: true)]
         [SettingsUISection(KeysTab, ToggleSection)]
         public ProxyBinding ToggleBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'move north' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.PageUp, MoveUpAction, ctrl: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.PageUp, MoveUpAction, ctrl: true)]
         [SettingsUISection(KeysTab, ElevationSection)]
         public ProxyBinding MoveUpBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'move south' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.PageDown, MoveDownAction, ctrl: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.PageDown, MoveDownAction, ctrl: true)]
         [SettingsUISection(KeysTab, ElevationSection)]
         public ProxyBinding MoveDownBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'move north large' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.PageUp, MoveUpLargeAction, ctrl: true, shift: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.PageUp, MoveUpLargeAction, ctrl: true, shift: true)]
         [SettingsUISection(KeysTab, ElevationSection)]
         public ProxyBinding MoveUpLargeBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'move south large' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.PageDown, MoveDownLargeAction, ctrl: true, shift: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.PageDown, MoveDownLargeAction, ctrl: true, shift: true)]
         [SettingsUISection(KeysTab, ElevationSection)]
         public ProxyBinding MoveDownLargeBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'move north' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.UpArrow, MoveNorthAction, ctrl: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.UpArrow, MoveNorthAction, ctrl: true)]
         [SettingsUISection(KeysTab, PositionSection)]
         public ProxyBinding MoveNorthBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'move south' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.DownArrow, MoveSouthAction, ctrl: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.DownArrow, MoveSouthAction, ctrl: true)]
         [SettingsUISection(KeysTab, PositionSection)]
         public ProxyBinding MoveSouthBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'move east' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.RightArrow, MoveEastAction, ctrl: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.RightArrow, MoveEastAction, ctrl: true)]
         [SettingsUISection(KeysTab, PositionSection)]
         public ProxyBinding MoveEastBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'move west' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.LeftArrow, MoveWestAction, ctrl: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.LeftArrow, MoveWestAction, ctrl: true)]
         [SettingsUISection(KeysTab, PositionSection)]
         public ProxyBinding MoveWestBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'move north large' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.UpArrow, MoveNorthLargeAction, ctrl: true, shift: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.UpArrow, MoveNorthLargeAction, ctrl: true, shift: true)]
         [SettingsUISection(KeysTab, PositionSection)]
         public ProxyBinding MoveNorthLargeBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'move south large' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.DownArrow, MoveSouthLargeAction, ctrl: true, shift: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.DownArrow, MoveSouthLargeAction, ctrl: true, shift: true)]
         [SettingsUISection(KeysTab, PositionSection)]
         public ProxyBinding MoveSouthLargeBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'move east large' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.RightArrow, MoveEastLargeAction, ctrl: true, shift: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.RightArrow, MoveEastLargeAction, ctrl: true, shift: true)]
         [SettingsUISection(KeysTab, PositionSection)]
         public ProxyBinding MoveEastLargeBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'move east large' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.LeftArrow, MoveWestLargeAction, ctrl: true, shift: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.LeftArrow, MoveWestLargeAction, ctrl: true, shift: true)]
         [SettingsUISection(KeysTab, PositionSection)]
         public ProxyBinding MoveWestLargeBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'rotate left' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.Comma, RotateLeftAction, ctrl: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.Comma, RotateLeftAction, ctrl: true)]
         [SettingsUISection(KeysTab, RotationSection)]
         public ProxyBinding RotateLeftBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'rotate right' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.Period, RotateRightAction, ctrl: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.Period, RotateRightAction, ctrl: true)]
         [SettingsUISection(KeysTab, RotationSection)]
         public ProxyBinding RotateRightBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'rotate left large' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.Comma, RotateLeftLargeAction, ctrl: true, shift: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.Comma, RotateLeftLargeAction, ctrl: true, shift: true)]
         [SettingsUISection(KeysTab, RotationSection)]
         public ProxyBinding RotateLeftLargeBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'rotate right large' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.Period, RotateRightLargeAction, ctrl: true, shift: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.Period, RotateRightLargeAction, ctrl: true, shift: true)]
         [SettingsUISection(KeysTab, RotationSection)]
         public ProxyBinding RotateRightLargeBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'increase size' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.Equals, IncreaseSizeAction, ctrl: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.Equals, IncreaseSizeAction, ctrl: true)]
         [SettingsUISection(KeysTab, SizeSection)]
         public ProxyBinding IncreaseSizeBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'decrease size' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.Minus, DecreaseSizeAction, ctrl: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.Minus, DecreaseSizeAction, ctrl: true)]
         [SettingsUISection(KeysTab, SizeSection)]
         public ProxyBinding DecreaseSizeBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'increase size large' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.Equals, IncreaseSizeLargeAction, ctrl: true, shift: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.Equals, IncreaseSizeLargeAction, ctrl: true, shift: true)]
         [SettingsUISection(KeysTab, SizeSection)]
         public ProxyBinding IncreaseSizeLargeBinding { get; set; }
 
         /// <summary>
         /// Gets or sets the 'decrease size large' hotkey.
         /// </summary>
-        [SettingsUIKeyboardBinding(Key.Minus, DecreaseSizeLargeAction, ctrl: true, shift: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.Minus, DecreaseSizeLargeAction, ctrl: true, shift: true)]
         [SettingsUISection(KeysTab, SizeSection)]
         public ProxyBinding DecreaseSizeLargeBinding { get; set; }
 
