@@ -16,7 +16,6 @@ namespace ImageOverlay
     using Game.UI;
     using Game.UI.Widgets;
     using UnityEngine;
-    using UnityEngine.InputSystem;
     using static ActionNames;
 
     /// <summary>
@@ -134,11 +133,8 @@ namespace ImageOverlay
 
             set
             {
-                if (_showThroughTerrain != value)
-                {
-                    _showThroughTerrain = value;
-                    ImageOverlaySystem.Instance?.ShowThroughTerrain(value);
-                }
+                _showThroughTerrain = value;
+                ImageOverlaySystem.Instance?.ShowThroughTerrain(value);
             }
         }
 
@@ -234,11 +230,8 @@ namespace ImageOverlay
             get => _overlayElevation;
             set
             {
-                if (_overlayElevation != value)
-                {
-                    _overlayElevation = value;
-                    ImageOverlaySystem.Instance?.SetPositionY(value);
-                }
+                _overlayElevation = value;
+                ImageOverlaySystem.Instance?.SetPositionY(value);
             }
         }
 

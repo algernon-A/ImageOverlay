@@ -37,6 +37,9 @@ namespace ImageOverlay
         private Shader _overlayShader;
         private bool _isVisible = false;
 
+        // Status flag.
+        private bool _shaderInitialized = false;
+
         /// <summary>
         /// Gets the active instance.
         /// </summary>
@@ -62,11 +65,13 @@ namespace ImageOverlay
         {
             if (_overlayObject?.GetComponent<Renderer>()?.material is Material overlayMaterial)
             {
+                _log.Error("Setting ZTest for overlay material shader.");
                 overlayMaterial.SetFloat("_ZTest", showThroughTerrain ? 8f : 4f);
+                _shaderInitialized = true;
             }
             else
             {
-                _log.Error("Unable to get overlay material shader to set ZTest.");
+                _log.Info("Unable set ZTest: overlay material shader not yet ready.");
             }
         }
 
@@ -301,6 +306,12 @@ namespace ImageOverlay
             else
             {
                 _log.Info("Overlay object wasn't created");
+            }
+
+            // Ensure initial shader initialization if needed.
+            if (!_shaderInitialized)
+            {
+                ShowThroughTerrain(Mod.Instance.ActiveSettings.ShowThroughTerrain);
             }
         }
 
