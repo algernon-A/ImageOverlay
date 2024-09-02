@@ -1,1 +1,1 @@
-- Add configurable keybindings.
+- Add allowance for deferred shader availability when applying 'visible under terrain' setting.

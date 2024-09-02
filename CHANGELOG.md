@@ -1,3 +1,6 @@
+### 1.2.1
+- Add allowance for deferred shader availability when applying 'visible under terrain' setting.
+
 ### 1.2
 - Add configurable keybindings.
 
