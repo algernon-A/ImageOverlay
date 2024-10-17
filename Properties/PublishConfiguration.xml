@@ -42,10 +42,10 @@ Modders (and aspiring modders!), as always I'm available and happy to chat about
   <Screenshot Value="Properties/Screenshots/ImageOverlayOptions.jpg" />
   <Tag Value="Code Mod" />
   <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/image-overlay.1644740/" />
-  <ModVersion Value="1.2.1" />
+  <ModVersion Value="1.2.2" />
   <GameVersion Value="1.1.*" />
   <Dependency Id="" DisplayName="" Version="" />
-  <ChangeLog>- Add allowance for deferred shader availability when applying 'visible under terrain' setting.</ChangeLog>
+  <ChangeLog>- Remove redundant debugging logging.</ChangeLog>
   <ExternalLink Type="github" Url="https://github.com/algernon-A/ImageOverlay" />
   <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
   <ExternalLink Type="crowdin" Url="https://crowdin.com/project/image-overlay" />

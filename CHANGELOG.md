@@ -1,3 +1,6 @@
+### 1.2.2
+- Remove redundant debugging logging.
+
 ### 1.2.1
 - Add allowance for deferred shader availability when applying 'visible under terrain' setting.
 

@@ -65,7 +65,6 @@ namespace ImageOverlay
         {
             if (_overlayObject?.GetComponent<Renderer>()?.material is Material overlayMaterial)
             {
-                _log.Error("Setting ZTest for overlay material shader.");
                 overlayMaterial.SetFloat("_ZTest", showThroughTerrain ? 8f : 4f);
                 _shaderInitialized = true;
             }
