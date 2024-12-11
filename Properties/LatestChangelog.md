@@ -1,1 +1,1 @@
-- Remove redundant debugging logging.
+- Update compatibility info for game version 1.2.0.

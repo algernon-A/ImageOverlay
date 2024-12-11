@@ -42,12 +42,13 @@ Modders (and aspiring modders!), as always I'm available and happy to chat about
   <Screenshot Value="Properties/Screenshots/ImageOverlayOptions.jpg" />
   <Tag Value="Code Mod" />
   <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/image-overlay.1644740/" />
-  <ModVersion Value="1.2.2" />
-  <GameVersion Value="1.1.*" />
+  <ModVersion Value="1.2.2.1" />
+  <GameVersion Value="1.2.*" />
   <Dependency Id="" DisplayName="" Version="" />
-  <ChangeLog>- Remove redundant debugging logging.</ChangeLog>
+  <ChangeLog>- Update compatibility info for game version 1.2.0.</ChangeLog>
   <ExternalLink Type="github" Url="https://github.com/algernon-A/ImageOverlay" />
   <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
   <ExternalLink Type="crowdin" Url="https://crowdin.com/project/image-overlay" />
   <ExternalLink Type="kofi" Url="https://ko-fi.com/algernon" />
+  <ExternalLink Type="paypal" Url="https://paypal.me/algernonCities" />
 </Publish>

@@ -1,3 +1,6 @@
+### 1.2.2.1
+- Update compatibility info for game version 1.2.0.
+
 ### 1.2.2
 - Remove redundant debugging logging.
 
