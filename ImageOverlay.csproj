@@ -4,7 +4,7 @@
 		<AssemblyTitle>$(Title)</AssemblyTitle>
 		<Description>A Cities: Skylines 2 mod.</Description>
 		<Authors>algernon</Authors>
-		<Copyright>Copyright © 2023-24 algernon (github.com/algernon-A). All rights reserved.</Copyright>
+		<Copyright>Copyright © 2023-25 algernon (github.com/algernon-A). All rights reserved.</Copyright>
 		<Product>$(Title)</Product>
 		<Version>1.2.2.1</Version>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
