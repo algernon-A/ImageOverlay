@@ -1,1 +1,1 @@
-- Update compatibility info for game version 1.2.0.
+- Update compatibility info for game version 1.3.3.
