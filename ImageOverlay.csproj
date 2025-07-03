@@ -6,7 +6,7 @@
 		<Authors>algernon</Authors>
 		<Copyright>Copyright © 2023-25 algernon (github.com/algernon-A). All rights reserved.</Copyright>
 		<Product>$(Title)</Product>
-		<Version>1.2.2.2</Version>
+		<Version>1.2.3</Version>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<TargetFrameworks>net472;net48</TargetFrameworks>
@@ -56,9 +56,9 @@
 	</ItemGroup>
 
 	<Target Name="SetDescription" BeforeTargets="BeforeBuild">
-		<XmlPoke XmlInputPath="$(PublishConfigurationPath)" Value="$([System.IO.File]::ReadAllText($(ProjectDir)/Properties/LongDescription.md))" Query="//LongDescription" />
-		<XmlPoke XmlInputPath="$(PublishConfigurationPath)" Value="$([System.IO.File]::ReadAllText($(ProjectDir)/Properties/LatestChangelog.md))" Query="//ChangeLog" />
-		<XmlPoke XmlInputPath="$(PublishConfigurationPath)" Value="$(Version)" Query="//ModVersion/@Value" />
+		<XmlPoke XmlInputPath="$(PublishConfigurationPath)" Value="$([System.IO.File]::ReadAllText($(ProjectDir)/Properties/LongDescription.md))" Query="//Publish/LongDescription" />
+		<XmlPoke XmlInputPath="$(PublishConfigurationPath)" Value="$([System.IO.File]::ReadAllText($(ProjectDir)/Properties/LatestChangelog.md))" Query="//Publish/ChangeLog" />
+		<XmlPoke XmlInputPath="$(PublishConfigurationPath)" Value="$(Version)" Query="//Publish/ModVersion/@Value" />
 	</Target>
 
 	<Target Name="Notice" AfterTargets="AfterBuild">

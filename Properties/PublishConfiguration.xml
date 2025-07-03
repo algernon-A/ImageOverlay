@@ -42,10 +42,10 @@ Modders (and aspiring modders!), as always I'm available and happy to chat about
   <Screenshot Value="Properties/Screenshots/ImageOverlayOptions.jpg" />
   <Tag Value="Code Mod" />
   <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/image-overlay.1644740/" />
-  <ModVersion Value="1.2.2.2" />
+  <ModVersion Value="1.2.3" />
   <GameVersion Value="1.3.*" />
   <Dependency Id="" DisplayName="" Version="" />
-  <ChangeLog>- Update compatibility info for game version 1.3.3.</ChangeLog>
+  <ChangeLog>- Update overlay position bounds to work better with expanded map sizes.</ChangeLog>
   <ExternalLink Type="github" Url="https://github.com/algernon-A/ImageOverlay" />
   <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
   <ExternalLink Type="crowdin" Url="https://crowdin.com/project/image-overlay" />

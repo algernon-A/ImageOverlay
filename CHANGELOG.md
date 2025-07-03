@@ -1,3 +1,6 @@
+### 1.2.3
+- Update overlay position bounds to work better with expanded map sizes.
+
 ### 1.2.2.2
 - Update compatibility info for game version 1.3.3.
 
