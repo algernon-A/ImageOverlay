@@ -42,6 +42,7 @@ namespace ImageOverlay
         // Control constants.
         private const string NoOverlayText = "None";
         private const float VanillaMapSize = 14336f;
+        private const float ExpandedMapSize = VanillaMapSize * 4f;
 
         // References.
         private readonly ILog _log;
@@ -159,7 +160,7 @@ namespace ImageOverlay
         /// <summary>
         /// Gets or sets the overlay size.
         /// </summary>
-        [SettingsUISlider(min = 100f, max = VanillaMapSize * 4f, step = 1f, scalarMultiplier = 1f)]
+        [SettingsUISlider(min = 100f, max = ExpandedMapSize, step = 1f, scalarMultiplier = 1f)]
         [SettingsUISection(OverlayTab, SizeSection)]
         public float OverlaySize
         {
@@ -187,7 +188,7 @@ namespace ImageOverlay
         /// <summary>
         /// Gets or sets the overlay Y-position (actually Z in Unity-speak, but let's not confuse the users too much).
         /// </summary>
-        [SettingsUISlider(min = -VanillaMapSize / 2f, max = VanillaMapSize / 2f, step = 1f, scalarMultiplier = 1f)]
+        [SettingsUISlider(min = -ExpandedMapSize / 2f, max = ExpandedMapSize / 2f, step = 1f, scalarMultiplier = 1f)]
         [SettingsUISection(OverlayTab, PositionSection)]
         public float OverlayPosX
         {
@@ -205,7 +206,7 @@ namespace ImageOverlay
         /// <summary>
         /// Gets or sets the overlay Z-position.
         /// </summary>
-        [SettingsUISlider(min = -VanillaMapSize / 2f, max = VanillaMapSize / 2f, step = 1f, scalarMultiplier = 1f)]
+        [SettingsUISlider(min = -ExpandedMapSize / 2f, max = ExpandedMapSize / 2f, step = 1f, scalarMultiplier = 1f)]
         [SettingsUISection(OverlayTab, PositionSection)]
         public float OverlayPosZ
         {
