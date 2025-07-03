@@ -9,7 +9,7 @@
 		<Version>1.2.3</Version>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<TargetFrameworks>net472;net48</TargetFrameworks>
+		<TargetFrameworks>net48</TargetFrameworks>
 		<LangVersion>9.0</LangVersion>
 		<Configurations>Debug;Release</Configurations>
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
