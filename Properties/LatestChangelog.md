@@ -1,1 +1,1 @@
-- Update overlay position bounds to work better with expanded map sizes.
+- Compatibility with game version 1.3.6.
