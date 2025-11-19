@@ -154,7 +154,7 @@ namespace ImageOverlay
         internal void ResetElevation()
         {
             TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
-            WaterSurfaceData waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
+            WaterSurfaceData<SurfaceWater> waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
             Mod.Instance.ActiveSettings.OverlayPosY = WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero) + 5f;
         }
 
@@ -372,7 +372,7 @@ namespace ImageOverlay
                 // Set overlay elevation.
                 ResetElevation();
                 TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
-                WaterSurfaceData waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
+                WaterSurfaceData<SurfaceWater> waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
                 _log.Info($"terrain height is {WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero)}");
                 _overlayObject.transform.position = new Vector3(Mod.Instance.ActiveSettings.OverlayPosX, Mod.Instance.ActiveSettings.OverlayPosY, Mod.Instance.ActiveSettings.OverlayPosZ);
 

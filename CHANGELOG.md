@@ -1,3 +1,6 @@
+### 1.2.5
+- Fix crash that can occur with game version 1.4.2.
+
 ### 1.2.4
 - Compatibility with game version 1.3.6.
 
