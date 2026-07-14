@@ -115,5 +115,10 @@ namespace ImageOverlay
         /// Decrease the overlay size multiple steps at once..
         /// </summary>
         internal const string DecreaseSizeLargeAction = "DecreaseSizeLarge";
+
+        /// <summary>
+        /// Fit the overlay to the maximum playable area, or to the map extents.
+        /// </summary>
+        internal const string ToggleExtentsAction = "ToggleExtents";
     }
 }

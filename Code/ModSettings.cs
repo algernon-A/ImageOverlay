@@ -55,6 +55,7 @@ namespace ImageOverlay
 
         // Overlay attributes.
         private bool _showThroughTerrain = true;
+        private bool _conformToTerrain = false;
         private float _overlaySize = VanillaMapSize;
         private float _overlayPosX = 0f;
         private float _overlayPosZ = 0f;
@@ -136,6 +137,21 @@ namespace ImageOverlay
             {
                 _showThroughTerrain = value;
                 ImageOverlaySystem.Instance?.ShowThroughTerrain(value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the overlay should be draped over the terrain surface.
+        /// </summary>
+        [SettingsUISection(OverlayTab, AlphaSection)]
+        public bool ConformToTerrain
+        {
+            get => _conformToTerrain;
+
+            set
+            {
+                _conformToTerrain = value;
+                ImageOverlaySystem.Instance?.SetConformToTerrain(value);
             }
         }
 
@@ -450,6 +466,13 @@ namespace ImageOverlay
         [SettingsUIKeyboardBinding(BindingKeyboard.Minus, DecreaseSizeLargeAction, ctrl: true, shift: true)]
         [SettingsUISection(KeysTab, SizeSection)]
         public ProxyBinding DecreaseSizeLargeBinding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the 'fit to maximum playable area or map extents' hotkey.
+        /// </summary>
+        [SettingsUIKeyboardBinding(BindingKeyboard.F, ToggleExtentsAction, ctrl: true)]
+        [SettingsUISection(KeysTab, SizeSection)]
+        public ProxyBinding ToggleExtentsBinding { get; set; }
 
         /// <summary>
         /// Generates the overlay file selection dropdown menu item list.
