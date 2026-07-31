@@ -24,14 +24,23 @@ namespace ImageOverlay
     /// </summary>
     internal sealed partial class ImageOverlaySystem : GameSystemBase
     {
+        // Map size.
+        private const float MapSize = 14336f;
+        private const int MeshResolution = 2048;
+
         // Input actions.
         private readonly List<KeyValuePair<ProxyAction, Action>> _actions = new ();
 
         // References.
         private ILog _log;
 
+        // Mesh.
+        private bool _terrainConforming = false;
+        private Vector3[] _vertices;
+
         // Texture.
         private GameObject _overlayObject;
+        private Mesh _overlayMesh;
         private Material _overlayMaterial;
         private Texture2D _overlayTexture;
         private Shader _overlayShader;
@@ -54,6 +63,32 @@ namespace ImageOverlay
             if (_overlayObject)
             {
                 UpdateOverlayTexture();
+            }
+        }
+
+        /// <summary>
+        /// Sets whether the overlay will be projected onto a terrain-conforming mesh or a flat plane.
+        /// </summary>
+        /// <param name="terrainConforming"><c>true</c> to use a terrain-conforming mesh, <c>false</c> to use a flat plane.</param>
+        internal void SetTerrainConforming(bool terrainConforming)
+        {
+            // Don't do anything if no change.
+            if (_terrainConforming != terrainConforming)
+            {
+                _terrainConforming = terrainConforming;
+                if (_overlayMesh)
+                {
+                    GenerateMesh();
+                    UpdateMeshHeights();
+
+                    // Reset height to zero if we're using a terrain-conforming mesh.
+                    if (_terrainConforming)
+                    {
+                        Vector3 overlayPosition = _overlayObject.transform.position;
+                        overlayPosition.y = 0f;
+                        _overlayObject.transform.position = overlayPosition;
+                    }
+                }
             }
         }
 
@@ -97,9 +132,10 @@ namespace ImageOverlay
             // Only refresh if there's an existing overlay object.
             if (_overlayObject)
             {
-                // Plane primitive is 10m wide, so divide input size accordingly.
-                float scaledSize = size / 10f;
+                // Divide input size relative to mesh size.
+                float scaledSize = size / MapSize;
                 _overlayObject.transform.localScale = new Vector3(scaledSize, 1f, scaledSize);
+                UpdateMeshHeights();
             }
         }
 
@@ -115,6 +151,7 @@ namespace ImageOverlay
                 Vector3 newPos = _overlayObject.transform.position;
                 newPos.x = posX;
                 _overlayObject.transform.position = newPos;
+                UpdateMeshHeights();
             }
         }
 
@@ -145,6 +182,7 @@ namespace ImageOverlay
                 Vector3 newPos = _overlayObject.transform.position;
                 newPos.z = posZ;
                 _overlayObject.transform.position = newPos;
+                UpdateMeshHeights();
             }
         }
 
@@ -167,6 +205,7 @@ namespace ImageOverlay
             if (_overlayObject)
             {
                 _overlayObject.transform.rotation = Quaternion.Euler(0f, Mod.Instance.ActiveSettings.OverlayRotation + 180, 0f);
+                UpdateMeshHeights();
             }
         }
 
@@ -290,7 +329,10 @@ namespace ImageOverlay
                 return;
             }
 
-            // Showing overlay - create overlay if it's not already there, or if the file we used has been deleted.
+            // Showing overlay - ensure terrain conforming setting is current.
+            SetTerrainConforming(Mod.Instance.ActiveSettings.TerrainConforming);
+
+            // Create overlay if it's not already there, or if the file we used has been deleted.
             if (!_overlayObject || !_overlayMaterial || !_overlayTexture)
             {
                 CreateOverlay();
@@ -363,8 +405,21 @@ namespace ImageOverlay
                 // Load texture.
                 UpdateOverlayTexture();
 
-                // Create basic plane.
-                _overlayObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
+                // Create dynamic mesh object.
+                _overlayMesh = new Mesh
+                {
+                    name = "ImageOverlayMesh",
+                    indexFormat = UnityEngine.Rendering.IndexFormat.UInt32,
+                };
+                _overlayMesh.MarkDynamic();
+
+                // Create overlay game object.
+                _overlayObject = new GameObject("ImageOverlay");
+                _overlayObject.AddComponent<MeshRenderer>();
+
+                // Generate initial overlay mesh.
+                GenerateMesh();
+                _overlayObject.AddComponent<MeshFilter>().mesh = _overlayMesh;
 
                 // Apply scale.
                 SetSize(Mod.Instance.ActiveSettings.OverlaySize);
@@ -373,8 +428,17 @@ namespace ImageOverlay
                 ResetElevation();
                 TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
                 WaterSurfaceData<SurfaceWater> waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
-                _log.Info($"terrain height is {WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, float3.zero)}");
-                _overlayObject.transform.position = new Vector3(Mod.Instance.ActiveSettings.OverlayPosX, Mod.Instance.ActiveSettings.OverlayPosY, Mod.Instance.ActiveSettings.OverlayPosZ);
+                Vector3 overlayPosition = _overlayObject.transform.position;
+                if (_terrainConforming)
+                {
+                    overlayPosition.y = 0f;
+                }
+                else
+                {
+                    overlayPosition.y = Mod.Instance.ActiveSettings.OverlayPosY;
+                }
+
+                _overlayObject.transform.position = overlayPosition;
 
                 // Apply rotation.
                 UpdateRotation();
@@ -390,6 +454,100 @@ namespace ImageOverlay
         }
 
         /// <summary>
+        /// Regenerates the overlay mesh according to current settings.
+        /// </summary>
+        private void GenerateMesh()
+        {
+            if (!_overlayMesh)
+            {
+                _log.Info("GenerateMesh called with no overlay mesh");
+                return;
+            }
+
+            // Generate mesh vertices and UVs.
+            int meshSteps = _terrainConforming ? MeshResolution : 2;
+            int maxMeshIndex = meshSteps - 1;
+            int numVertices = meshSteps * meshSteps;
+            _vertices = new Vector3[numVertices];
+            Vector2[] uv = new Vector2[numVertices];
+            const float startX = MapSize * -0.5f;
+            const float startY = MapSize * -0.5f;
+            float xStep = MapSize / (meshSteps - 1f);
+            float zStep = MapSize / (meshSteps - 1f);
+            for (int zIndex = 0; zIndex < meshSteps; ++zIndex)
+            {
+                // N is inverted compared to Z.
+                float v = 1f - (zIndex / (float)maxMeshIndex);
+
+                for (int xIndex = 0; xIndex < meshSteps; ++xIndex)
+                {
+                    int vertexIndex = (zIndex * meshSteps) + xIndex;
+                    float x = startX + (xStep * xIndex);
+                    float z = startY + (zStep * zIndex);
+                    _vertices[vertexIndex] = new Vector3(x, 0f, z);
+
+                    // U is inverted compared to X.
+                    float u = 1f - (xIndex / (float)maxMeshIndex);
+                    uv[vertexIndex] = new Vector2(u, v);
+                }
+            }
+
+            // Generate mesh triangles.
+            int[] tris = new int[maxMeshIndex * maxMeshIndex * 6];
+            int triIndex = 0;
+            for (int zIndex = 1; zIndex < meshSteps; ++zIndex)
+            {
+                for (int xIndex = 1; xIndex < meshSteps; ++xIndex)
+                {
+                    int topLeft = ((zIndex - 1) * meshSteps) + (xIndex - 1);
+                    int topRight = topLeft + 1;
+                    int bottomLeft = topLeft + meshSteps;
+                    int bottomRight = bottomLeft + 1;
+
+                    tris[triIndex++] = bottomLeft;
+                    tris[triIndex++] = topLeft;
+                    tris[triIndex++] = topRight;
+                    tris[triIndex++] = topRight;
+                    tris[triIndex++] = bottomRight;
+                    tris[triIndex++] = bottomLeft;
+                }
+            }
+
+            // Apply the new data.
+            _overlayMesh.SetVertices(_vertices);
+            _overlayMesh.SetUVs(0, uv);
+            _overlayMesh.SetTriangles(tris, 0);
+        }
+
+        /// <summary>
+        /// Updates the vertex elevations of the overlay mesh to conform to terrain and water surface heights.
+        /// </summary>
+        private void UpdateMeshHeights()
+        {
+            // Don't do anything if we're not using a terrain-conforming mesh.
+            if (!_terrainConforming)
+            {
+                return;
+            }
+
+            TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
+            WaterSurfaceData<SurfaceWater> waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
+            for (int zIndex = 0; zIndex < MeshResolution; ++zIndex)
+            {
+                for (int xIndex = 0; xIndex < MeshResolution; ++xIndex)
+                {
+                    // Transform the vertex position to world space and sample the height at that location.
+                    int vertexIndex = (zIndex * MeshResolution) + xIndex;
+                    float3 location = _overlayObject.transform.TransformPoint(_vertices[vertexIndex]);
+                    _vertices[vertexIndex].y = WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, location);
+                }
+            }
+
+            // Apply the new data.
+            _overlayMesh.SetVertices(_vertices);
+        }
+
+        /// <summary>
         /// Loads the custom shader from file.
         /// </summary>
         /// <returns><c>true</c> if the shader was successfully loaded, <c>false</c> otherwise.</returns>
@@ -402,7 +560,7 @@ namespace ImageOverlay
                 {
                     // Extract shader from file.
                     _overlayShader = AssetBundle.LoadFromStream(reader.BaseStream)?.LoadAsset<Shader>("Assets/UnlitTransparentAdditive.shader");
-                    if (_overlayShader is not null)
+                    if (_overlayShader)
                     {
                         // Shader loaded - all good!
                         return true;

@@ -54,6 +54,7 @@ namespace ImageOverlay
         private int _fileListVersion = 0;
 
         // Overlay attributes.
+        private bool _terrainConforming = false;
         private bool _showThroughTerrain = true;
         private float _overlaySize = VanillaMapSize;
         private float _overlayPosX = 0f;
@@ -121,6 +122,21 @@ namespace ImageOverlay
             set
             {
                 UpdateFileList();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the overlay should be projected onto a terrain-conforming mesh (true) or confined to a flat plane (false).
+        /// </summary>
+        [SettingsUISection(OverlayTab, AlphaSection)]
+        public bool TerrainConforming
+        {
+            get => _terrainConforming;
+
+            set
+            {
+                _terrainConforming = value;
+                ImageOverlaySystem.Instance?.SetTerrainConforming(value);
             }
         }
 
