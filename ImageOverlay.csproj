@@ -9,8 +9,6 @@
 		<Version>1.2.5</Version>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<TargetFrameworks>net48</TargetFrameworks>
-		<LangVersion>9.0</LangVersion>
 		<Configurations>Debug;Release</Configurations>
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
 	</PropertyGroup>
