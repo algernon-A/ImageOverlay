@@ -26,7 +26,6 @@ namespace ImageOverlay
     {
         // Map size.
         private const float MapSize = 14336f;
-        private const int MeshResolution = 2048;
 
         // Input actions.
         private readonly List<KeyValuePair<ProxyAction, Action>> _actions = new ();
@@ -37,6 +36,7 @@ namespace ImageOverlay
         // Mesh.
         private bool _terrainConforming = false;
         private Vector3[] _vertices;
+        private int _meshResolution = 2048;
 
         // Texture.
         private GameObject _overlayObject;
@@ -88,6 +88,28 @@ namespace ImageOverlay
                         overlayPosition.y = 0f;
                         _overlayObject.transform.position = overlayPosition;
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the mesh resolution for terrain-conforming meshes.
+        /// </summary>
+        /// <param name="resolution"></param>
+        internal void SetMeshResolution(int resolution)
+        {
+            // Don't do anything if no change.
+            if (_meshResolution != resolution)
+            {
+                _meshResolution = resolution;
+
+                // Don't regenerate mesh if we're not using a terrain-conforming mesh.
+                if (_overlayMesh && _terrainConforming)
+                {
+                    // Regenerate mesh completely.
+                    CreateOverlay();
+                    GenerateMesh();
+                    UpdateMeshHeights();
                 }
             }
         }
@@ -331,6 +353,7 @@ namespace ImageOverlay
 
             // Showing overlay - ensure terrain conforming setting is current.
             SetTerrainConforming(Mod.Instance.ActiveSettings.TerrainConforming);
+            SetMeshResolution(Mod.Instance.ActiveSettings.MeshResolution);
 
             // Create overlay if it's not already there, or if the file we used has been deleted.
             if (!_overlayObject || !_overlayMaterial || !_overlayTexture)
@@ -465,7 +488,7 @@ namespace ImageOverlay
             }
 
             // Generate mesh vertices and UVs.
-            int meshSteps = _terrainConforming ? MeshResolution : 2;
+            int meshSteps = _terrainConforming ? _meshResolution : 2;
             int maxMeshIndex = meshSteps - 1;
             int numVertices = meshSteps * meshSteps;
             _vertices = new Vector3[numVertices];
@@ -532,12 +555,12 @@ namespace ImageOverlay
 
             TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
             WaterSurfaceData<SurfaceWater> waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
-            for (int zIndex = 0; zIndex < MeshResolution; ++zIndex)
+            for (int zIndex = 0; zIndex < _meshResolution; ++zIndex)
             {
-                for (int xIndex = 0; xIndex < MeshResolution; ++xIndex)
+                for (int xIndex = 0; xIndex < _meshResolution; ++xIndex)
                 {
                     // Transform the vertex position to world space and sample the height at that location.
-                    int vertexIndex = (zIndex * MeshResolution) + xIndex;
+                    int vertexIndex = (zIndex * _meshResolution) + xIndex;
                     float3 location = _overlayObject.transform.TransformPoint(_vertices[vertexIndex]);
                     _vertices[vertexIndex].y = WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, location);
                 }

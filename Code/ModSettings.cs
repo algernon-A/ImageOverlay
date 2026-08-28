@@ -55,6 +55,7 @@ namespace ImageOverlay
 
         // Overlay attributes.
         private bool _terrainConforming = false;
+        private int _meshResolution = 2048;
         private bool _showThroughTerrain = true;
         private float _overlaySize = VanillaMapSize;
         private float _overlayPosX = 0f;
@@ -137,6 +138,23 @@ namespace ImageOverlay
             {
                 _terrainConforming = value;
                 ImageOverlaySystem.Instance?.SetTerrainConforming(value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the overlay mesh resolution (points per side) when terrain-conforming mesh is used.
+        /// </summary>
+        [SettingsUISection(OverlayTab, AlphaSection)]
+        [SettingsUIHideByCondition(typeof(ModSettings), nameof(TerrainConforming), true)]
+        [SettingsUISlider(min = 256f, max = 4096, step = 1f, scalarMultiplier = 1f)]
+        public int MeshResolution
+        {
+            get => _meshResolution;
+
+            set
+            {
+                _meshResolution = value;
+                ImageOverlaySystem.Instance?.SetMeshResolution(value);
             }
         }
 
@@ -512,6 +530,7 @@ namespace ImageOverlay
         public override void SetDefaults()
         {
             _selectedOverlay = string.Empty;
+            _meshResolution = 2048;
             OverlaySize = VanillaMapSize;
             Alpha = 0f;
         }
