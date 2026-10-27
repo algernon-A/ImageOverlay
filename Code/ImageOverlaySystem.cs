@@ -10,6 +10,7 @@ namespace ImageOverlay
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
+    using System.Threading.Tasks;
     using Colossal.Logging;
     using Colossal.Serialization.Entities;
     using Game;
@@ -95,7 +96,7 @@ namespace ImageOverlay
         /// <summary>
         /// Sets the mesh resolution for terrain-conforming meshes.
         /// </summary>
-        /// <param name="resolution"></param>
+        /// <param name="resolution">The new mesh resolution.</param>
         internal void SetMeshResolution(int resolution)
         {
             // Don't do anything if no change.
@@ -555,16 +556,26 @@ namespace ImageOverlay
 
             TerrainHeightData terrainHeight = World.GetOrCreateSystemManaged<TerrainSystem>().GetHeightData();
             WaterSurfaceData<SurfaceWater> waterSurface = World.GetOrCreateSystemManaged<WaterSystem>().GetSurfaceData(out _);
-            for (int zIndex = 0; zIndex < _meshResolution; ++zIndex)
+
+            // Transform the vertex positions to world space. This is the only Unity transform work done outside the parallel worker.
+            Vector3[] worldVertices = new Vector3[_vertices.Length];
+            for (int i = 0; i < _vertices.Length; ++i)
+            {
+                worldVertices[i] = _overlayObject.transform.TransformPoint(_vertices[i]);
+            }
+
+            // Parallel height sampling worker, per-row (each row is independent).
+            Parallel.For(0, _meshResolution, zIndex =>
             {
                 for (int xIndex = 0; xIndex < _meshResolution; ++xIndex)
                 {
-                    // Transform the vertex position to world space and sample the height at that location.
                     int vertexIndex = (zIndex * _meshResolution) + xIndex;
-                    float3 location = _overlayObject.transform.TransformPoint(_vertices[vertexIndex]);
+                    float3 location = worldVertices[vertexIndex];
+
+                    // Sample the terrain/water height for this vertex.
                     _vertices[vertexIndex].y = WaterUtils.SampleHeight(ref waterSurface, ref terrainHeight, location);
                 }
-            }
+            });
 
             // Apply the new data.
             _overlayMesh.SetVertices(_vertices);
