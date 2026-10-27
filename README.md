@@ -37,6 +37,10 @@ Requested by AmiPolizeiFunk to assist with map creation and real-life city recre
 ### Changing the overlay's transparency
 - Use the slider in the settings panel to change the overlay's transparency. 0% (default) is fully opaque and 100% is fully transparent (invisible).
 
+### Making the overlay conform to terrain
+- By default the overlay is displayed on a flat plane. This can be changed in the options panel by selecting the option to make the overlay conform to the terrain below it.  Enabling this option will make the overlay follow the terrain, but it will also make it slower to move or rotate (how much slower depends on your system).
+- The resolution of the terrain-conforming overlay can also be changed in the options panel.  Higher values will make the overlay more closely conform to the terrain, but will also make it slower to move or rotate (again, how much slower depends on your system).
+
 ## Meta
 ### Translations
 This mod supports localization via a [CrowdIn project](https://crowdin.com/project/image-overlay).  Please help out if you can!

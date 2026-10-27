@@ -1,1 +1,1 @@
-- Fix crash that can occur with game version 1.4.2.
+- Implement terrain-conforming overlay mesh.

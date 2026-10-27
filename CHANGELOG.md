@@ -1,3 +1,6 @@
+### 1.3
+- Implement terrain-conforming overlay mesh.
+
 ### 1.2.5
 - Fix crash that can occur with game version 1.4.2.
 
