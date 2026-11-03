@@ -9,6 +9,11 @@
 "Options.OPTION_DESCRIPTION:SelectedOverlay"	"Wybierz plik obrazu do nałożenia."
 "Options.OPTION:RefreshFileList"	"Odśwież listę plików"
 "Options.OPTION_DESCRIPTION:RefreshFileList"	"Odświeża listę dostępnych plików obrazu z katalogu ""Overlays"" w lokalizacji: %LocalAppData%Low\Colossal Order\Cities Skylines II."
+"Options.OPTION:TerrainConforming"	"Użyj mesha podążającego za terenem dla nakładki"
+"Options.OPTION_DESCRIPTION:TerrainConforming"	"Gdy ta opcja jest włączona, obraz zostanie ukształtowany tak, aby odpowiadał powierzchni terenu zamiast być pojedynczą płaską płaszczyzną. Jeśli ta opcja jest włączona, nakładka może być wolniejsza do poruszania lub obracania."
+"Options.OPTION:MeshResolution"	"Rozdzielczość mesha podążający za terenem"
+"Options.OPTION_DESCRIPTION:MeshResolution"	"Ustawia rozdzielczość mesha podążającego za terenem.
+Większe wartości sprawiają, że nakładka będzie ściślej podążać za terenem w miejscach o zróżnicowanej topografii, ale sprawi to, że będzie ona wolniejsza do poruszania lub obrotu."
 "Options.OPTION:ShowThroughTerrain"	"Pokaż obraz przez teren"
 "Options.OPTION_DESCRIPTION:ShowThroughTerrain"	"Gdy ta opcja jest włączona, obraz będzie widoczny nawet wtedy, gdy znajduje się pod terenem."
 "Options.OPTION:OverlaySize"	"Wielkość obrazu"
